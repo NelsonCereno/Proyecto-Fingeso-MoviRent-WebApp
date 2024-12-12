@@ -16,6 +16,7 @@ public class ServicioUsuario {
 
     @Autowired
     public ServicioUsuario(RepositorioUsuario repositorioUsuario) {
+
         this.repositorioUsuario = repositorioUsuario;
     }
 
@@ -28,11 +29,13 @@ public class ServicioUsuario {
 
     //read
     public EntidadUsuario getUsuarioById(Long id){
-        return repositorioUsuario.findById(id).orElse(null);
+        return
+                repositorioUsuario.findById(id).orElse(null);
     }
 
     public List<EntidadUsuario> getAllUsuarios(){
-        return repositorioUsuario.findAll();
+        return
+                repositorioUsuario.findAll();
     }
 
     //Update
@@ -44,6 +47,7 @@ public class ServicioUsuario {
 
     //Delete
     public void deleteUsuario(Long id){
+
         repositorioUsuario.deleteById(id);
     }
 

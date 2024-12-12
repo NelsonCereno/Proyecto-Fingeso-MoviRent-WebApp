@@ -8,5 +8,4 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface RepositorioUsuario extends JpaRepository<EntidadUsuario, Long> {
     //Gracias a JPA las consultas de hacen automaticas
-
 }

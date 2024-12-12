@@ -20,6 +20,7 @@ public class ControladorUsuario {
 
     @Autowired
     public ControladorUsuario(ServicioUsuario servicioUsuario){
+
         this.servicioUsuario = servicioUsuario;
     }
 

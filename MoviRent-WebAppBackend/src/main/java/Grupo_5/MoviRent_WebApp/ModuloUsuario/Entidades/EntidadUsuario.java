@@ -8,8 +8,10 @@ import lombok.*;
 
 @AllArgsConstructor //Instancias de tablas
 @NoArgsConstructor  //
-@Getter//con esto me ahorro los getters y seters
-@Setter
+
+//@Getter//con esto me ahorro los getters y seters
+//@Setter
+@Data
 
 public class EntidadUsuario {
 
@@ -17,10 +19,12 @@ public class EntidadUsuario {
     @GeneratedValue(strategy = GenerationType.IDENTITY) // Generacion de IDs secuenciales
     private Long id;
 
-    @Column(name = "super nombre")
+//    @Column(name = "super nombre")
     private String nombre;
 
     private String apellido;
 
     private String correo;
+
+    private String contrasena;
 }

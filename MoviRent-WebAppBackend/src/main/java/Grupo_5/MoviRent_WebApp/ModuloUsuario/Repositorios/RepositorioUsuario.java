@@ -1,4 +1,3 @@
-
 package Grupo_5.MoviRent_WebApp.ModuloUsuario.Repositorios;
 
 import Grupo_5.MoviRent_WebApp.ModuloUsuario.Entidades.EntidadUsuario;

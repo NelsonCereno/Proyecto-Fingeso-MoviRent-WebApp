@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
 
 import java.util.logging.Logger;
 
@@ -29,10 +30,9 @@ public class ControladorUsuario {
 
     //Create
     @PostMapping("/crear")
-    public String crearUsuario(@RequestBody EntidadUsuario usuario){
-        servicioUsuario.crearUsuario(usuario);
-        logger.info("Usuario creado" ); //+ usuario.getCorreo()
-        return "Usuario creado"; //+ usuario.getId()
+    public ResponseEntity<String> crearUsuario(@RequestBody EntidadUsuario usuario) {    servicioUsuario.crearUsuario(usuario);
+        logger.info("Usuario creado: " + usuario.getCorreo());
+        return ResponseEntity.ok("Usuario creado: " + usuario.getId());
     }
 
 

@@ -5,6 +5,7 @@ package Grupo_5.MoviRent_WebApp;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
 public class MoviRentWebAppApplication {

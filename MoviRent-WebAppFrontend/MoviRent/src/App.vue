@@ -1,5 +1,6 @@
 
 //npm install -g npm
+//npm install axios
 //npm run dev
 
 //Funcionalidades de la pagina (JavaScript)
@@ -24,6 +25,8 @@ import HelloWorld from './components/HelloWorld.vue'
       <nav>
         <RouterLink to="/">Home</RouterLink>
         <RouterLink to="/about">About</RouterLink>
+        <RouterLink to="/crear-reporte">Crear Reporte</RouterLink> <!-- Enlace a la nueva ruta -->
+        <RouterLink to="/crear-usuario">Crear Usuario</RouterLink> <!-- Enlace a la nueva ruta -->
       </nav>
       
     </div>

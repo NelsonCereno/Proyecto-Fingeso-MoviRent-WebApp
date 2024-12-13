@@ -13,6 +13,7 @@ import java.util.logging.Logger;
 @RestController
 @RequestMapping("/usuario")
 
+//xdddxdxdxdx
 public class ControladorUsuario {
 
     private final ServicioUsuario servicioUsuario;

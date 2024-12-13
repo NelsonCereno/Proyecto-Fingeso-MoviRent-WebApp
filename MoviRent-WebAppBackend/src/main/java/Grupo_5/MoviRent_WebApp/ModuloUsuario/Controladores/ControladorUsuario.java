@@ -30,9 +30,16 @@ public class ControladorUsuario {
 
     //Create
     @PostMapping("/crear")
+<<<<<<< Updated upstream
     public ResponseEntity<String> crearUsuario(@RequestBody EntidadUsuario usuario) {    servicioUsuario.crearUsuario(usuario);
         logger.info("Usuario creado: " + usuario.getCorreo());
         return ResponseEntity.ok("Usuario creado: " + usuario.getId());
+=======
+    public String crearUsuario(@RequestBody EntidadUsuario usuario){
+        servicioUsuario.crearUsuario(usuario);
+        logger.info("Usuario creado con ID :" + usuario.getCorreo());
+        return "Usuario creado " + usuario.getId();
+>>>>>>> Stashed changes
     }
 
 

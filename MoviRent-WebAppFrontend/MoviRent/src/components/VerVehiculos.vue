@@ -15,7 +15,6 @@
       <label2>
         Capacidad:
         <select v-model="filtroCapacidad" @change="filtrarPorCapacidad">
-          <option value="">Todas</option>
           <!-- Las capacidades únicas se calculan dinámicamente -->
           <option v-for="capacidad in capacidadesUnicas" :key="capacidad" :value="capacidad">
             {{ capacidad }} Pasajeros
@@ -66,15 +65,12 @@ export default {
     error: '', // Mensaje de error si ocurre algún problema
   };
 },
-  computed: {
-  capacidadesUnicas() {
-    // Validar que vehiculos es un arreglo
-    if (!Array.isArray(this.vehiculos)) return [];
-    return [...new Set(this.vehiculos
-      .map(v => v.nroPasajeros || 0) // Si nroPasajeros es null/undefined, usar 0
-      .filter(n => n > 0))] // Excluye valores no válidos
-      .sort((a, b) => a - b);
-  },
+  computed:  {
+    capacidadesUnicas() {
+    // Extrae las capacidades únicas y las ordena ascendentemente
+    const capacidades = [...new Set(this.vehiculos.map((v) => v.nroPasajeros))];
+    return capacidades.sort((a, b) => a - b); // Orden ascendente
+  }
 },
 
   created() {
@@ -136,28 +132,28 @@ export default {
 ,
 
 async filtrarPorCapacidad() {
+  if (this.filtroCapacidad === '') {
+    this.obtenerTodosLosVehiculos(); // Si no hay filtro, carga todos
+    return;
+  }
   try {
-    const params = {};
+    // Construcción dinámica de la URL con el parámetro seleccionado
+    const url = `/vehiculo/capacidad?nroPasajeros=${this.filtroCapacidad}`;
+    console.log('URL solicitada:', url);
 
-    // Incluye el filtro de disponibilidad si está seleccionado
-    if (this.filtroDisponibilidad !== '') {
-      params.disponibilidad = this.filtroDisponibilidad === 'true';
-    }
+    // Realiza la solicitud al backend
+    const respuesta = await axios.get(url);
+    console.log('Respuesta del backend:', respuesta.data);
 
-    // Incluye el filtro de capacidad si está seleccionado
-    if (this.filtroCapacidad !== '') {
-      params.nroPasajeros = parseInt(this.filtroCapacidad, 10);
-    }
+    // Actualiza la lista de vehículos con los datos filtrados
+    this.vehiculos = respuesta.data;
 
-    // Realiza la solicitud al backend con los parámetros combinados
-    const respuesta = await axios.get('/vehiculo/filtrar', { params });
-    console.log('Filtrado combinado:', respuesta.data);
-
-    this.vehiculos = respuesta.data; // Actualiza la lista de vehículos
-    this.error = ''; // Limpia cualquier mensaje de error previo
+    // Limpia el mensaje de error
+    this.error = '';
   } catch (error) {
-    this.error = 'Error al filtrar los vehículos.';
-    console.error('Error al filtrar vehículos:', error);
+    // Manejo de errores
+    this.error = 'Error al filtrar por capacidad.';
+    console.error('Error al filtrar capacidad:', error);
   }
 },
 

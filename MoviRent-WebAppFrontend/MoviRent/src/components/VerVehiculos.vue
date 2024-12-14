@@ -3,14 +3,13 @@
     <h1>Lista de Vehículos</h1>
 
     <!-- Filtros -->
-    <div>
       <label>
-        Disponibilidad:
-        <select v-model="filtroDisponibilidad" @change="filtrarPorDisponibilidad">
-          <option value="">Todos</option>
-          <option :value="true">Disponibles</option>
-          <option :value="false">No disponibles</option>
-        </select>
+    Disponibilidad:
+    <select v-model="filtroDisponibilidad" @change="filtrarPorDisponibilidad">
+      <option value="">Todos</option>
+      <option :value="'true'">Disponibles</option>
+      <option :value="'false'">No disponibles</option>
+    </select>
       </label>
 
       <label>
@@ -23,7 +22,7 @@
           </option>
         </select>
       </label>
-    </div>
+
 
     <!-- Lista de vehículos -->
     <ul v-if="vehiculos.length">
@@ -59,13 +58,12 @@ import axios from 'axios';
 export default {
   name: 'VerVehiculos',
   data() {
-    return {
-      vehiculos: [], // Lista de vehículos
-      filtroDisponibilidad: '', // Valor del filtro de disponibilidad
-      filtroCapacidad: '', // Valor del filtro de capacidad
-      error: '', // Mensaje de error
-    };
-  },
+  return {
+    vehiculos: [], // Lista de vehículos a mostrar
+    filtroDisponibilidad: '', // Valor inicial del filtro ('Todos')
+    error: '', // Mensaje de error si ocurre algún problema
+  };
+},
   computed: {
   capacidadesUnicas() {
     // Validar que vehiculos es un arreglo
@@ -99,46 +97,68 @@ export default {
 
     // Filtra vehículos por disponibilidad
     async filtrarPorDisponibilidad() {
-      if (this.filtroDisponibilidad === '') {
-        // Si el filtro es "Todos", carga todos los vehículos
-        this.obtenerTodosLosVehiculos();
-        return;
-      }
-      try {
-        const respuesta = await axios.get('/vehiculo/disponibles', {
-        params: { disponible: this.filtroDisponibilidad },
-        });
-        if (respuesta.data.length) {
-          this.vehiculos = respuesta.data; // Asigna los vehículos filtrados
-          this.error = '';
-       } else {
-          this.vehiculos = []; // Lista vacía si no hay vehículos disponibles
-          this.error = 'No hay vehículos disponibles con este filtro.';
-        }
-      } catch (error) {
-        this.error = 'Error al filtrar por disponibilidad.';
-        console.error('Error al filtrar disponibilidad:', error);
-      }
-    },
+  try {
+    switch (this.filtroDisponibilidad) {
+      case '': // Todos
+        console.log('Cargando todos los vehículos...');
+        this.obtenerTodosLosVehiculos(); // Llama al método para obtener todos
+        break;
 
-    // Filtra vehículos por capacidad
-    async filtrarPorCapacidad() {
-      if (this.filtroCapacidad === '') {
-        this.obtenerTodosLosVehiculos(); // Si no hay filtro, carga todos
-        return;
-      }
-      try {
-        const respuesta = await axios.get('/vehiculo/capacidad', {
-          params: { nroPasajeros: this.filtroCapacidad }, // Filtro por nroPasajeros
-        });
-        console.log('Filtrado por capacidad:', respuesta.data);
-        this.vehiculos = respuesta.data; // Asigna los datos filtrados
-        this.error = ''; // Limpia el mensaje de error
-      } catch (error) {
-        this.error = 'Error al filtrar por capacidad.';
-        console.error('Error al filtrar capacidad:', error);
-      }
-    },
+      case 'true': // Disponibles
+        console.log('Cargando vehículos disponibles...');
+        const respuestaDisponibles = await axios.get('http://localhost:8080/vehiculo/disponibles?disponibilidad=true');
+        console.log('Vehículos disponibles:', respuestaDisponibles.data);
+        this.vehiculos = Array.isArray(respuestaDisponibles.data)
+          ? respuestaDisponibles.data
+          : [];
+        break;
+
+      case 'false': // No disponibles
+        console.log('Cargando vehículos no disponibles...');
+        const respuestaNoDisponibles = await axios.get('http://localhost:8080/vehiculo/disponibles?disponibilidad=false');
+        console.log('Vehículos no disponibles:', respuestaNoDisponibles.data);
+        this.vehiculos = Array.isArray(respuestaNoDisponibles.data)
+          ? respuestaNoDisponibles.data
+          : [];
+        break;
+
+      default:
+        console.log('Opción no reconocida');
+        this.error = 'Opción no válida en el filtro de disponibilidad.';
+    }
+  } catch (error) {
+    console.error('Error al filtrar por disponibilidad:', error);
+    this.error = 'Error al cargar vehículos según disponibilidad.';
+  }
+}
+,
+
+async filtrarPorCapacidad() {
+  try {
+    const params = {};
+
+    // Incluye el filtro de disponibilidad si está seleccionado
+    if (this.filtroDisponibilidad !== '') {
+      params.disponibilidad = this.filtroDisponibilidad === 'true';
+    }
+
+    // Incluye el filtro de capacidad si está seleccionado
+    if (this.filtroCapacidad !== '') {
+      params.nroPasajeros = parseInt(this.filtroCapacidad, 10);
+    }
+
+    // Realiza la solicitud al backend con los parámetros combinados
+    const respuesta = await axios.get('/vehiculo/filtrar', { params });
+    console.log('Filtrado combinado:', respuesta.data);
+
+    this.vehiculos = respuesta.data; // Actualiza la lista de vehículos
+    this.error = ''; // Limpia cualquier mensaje de error previo
+  } catch (error) {
+    this.error = 'Error al filtrar los vehículos.';
+    console.error('Error al filtrar vehículos:', error);
+  }
+},
+
   },
 };
 </script>

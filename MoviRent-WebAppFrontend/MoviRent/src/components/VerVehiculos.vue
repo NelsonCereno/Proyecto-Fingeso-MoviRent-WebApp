@@ -84,15 +84,16 @@ export default {
     // Obtiene todos los vehículos desde el backend
     async obtenerTodosLosVehiculos() {
   try {
-    const respuesta = await axios.get('/vehiculo/todos');
-    console.log('Datos recibidos:', respuesta.data); // Depuración
+    console.log('Solicitando todos los vehículos...');
+    const respuesta = await axios.get('http://localhost:8080/vehiculo/todos'); // URL completa
+    console.log('Respuesta del backend:', respuesta.data); // Depuración
     this.vehiculos = Array.isArray(respuesta.data) ? respuesta.data : [];
   } catch (error) {
-    console.error('Error al obtener vehículos:', error);
     this.error = 'Error al cargar vehículos.';
-    this.vehiculos = [];
+    console.error('Error en obtenerTodosLosVehiculos:', error);
   }
 }
+
 
 ,
 

@@ -3,16 +3,16 @@
     <h1>Lista de Vehículos</h1>
 
     <!-- Filtros -->
-      <label>
+      <label1>
     Disponibilidad:
     <select v-model="filtroDisponibilidad" @change="filtrarPorDisponibilidad">
       <option value="">Todos</option>
       <option :value="'true'">Disponibles</option>
       <option :value="'false'">No disponibles</option>
     </select>
-      </label>
+      </label1>
 
-      <label>
+      <label2>
         Capacidad:
         <select v-model="filtroCapacidad" @change="filtrarPorCapacidad">
           <option value="">Todas</option>
@@ -21,7 +21,7 @@
             {{ capacidad }} Pasajeros
           </option>
         </select>
-      </label>
+      </label2>
 
 
     <!-- Lista de vehículos -->
@@ -42,10 +42,12 @@
         </p>
       </li>
     </ul>
-    <p v-else>No se encontraron vehículos.</p>
+
+    <p1 v-else>No se encontraron vehículos.</p1>
 
     <!-- Mensaje de error -->
-    <p v-if="error" style="color: red;">{{ error }}</p>
+    <p2 v-if="error" style="color: red;">{{ error }}</p2>
+
   </div>
 </template>
 
@@ -164,10 +166,56 @@ async filtrarPorCapacidad() {
 </script>
 
   
-  <style>
-  /* Estilos opcionales */
-  label {
-    margin-right: 10px;
-  }
-  </style>
+<style>
+/* Estilos opcionales */
+h1 {
+  display: block;
+  margin: 0 auto 2rem;
+  position: absolute; /* Cambia la posición del logo */
+  top: 33%; /* Ajusta la posición desde la parte superior */
+  left: 3%; /* Ajusta la posición desde la izquierda */
+}
+
+label1 {
+  display: block;
+  margin: 0 auto 2rem;
+  position: absolute; /* Cambia la posición del logo */
+  top: 43%; /* Ajusta la posición desde la parte superior */
+  left: 3%; /* Ajusta la posición desde la izquierda */
+}
+
+label2 {
+  display: block;
+  margin: 0 auto 2rem;
+  position: absolute; /* Cambia la posición del logo */
+  top: 43%; /* Ajusta la posición desde la parte superior */
+  left: 21%; /* Ajusta la posición desde la izquierda */
+}
+
+p1{
+  display: block;
+  margin: 0 auto 2rem;
+  position: absolute; /* Cambia la posición del logo */
+  top: 48%; /* Ajusta la posición desde la parte superior */
+  left: 3%; /* Ajusta la posición desde la izquierda */
+}
+
+p2{
+  display: block;
+  margin: 0 auto 2rem;
+  position: absolute; /* Cambia la posición del logo */
+  top: 53%; /* Ajusta la posición desde la parte superior */
+  left: 3%; /* Ajusta la posición desde la izquierda */
+}
+
+ul{
+  display: block;
+  margin: 0 auto 2rem;
+  position: absolute; /* Cambia la posición del logo */
+  top: 58%; /* Ajusta la posición desde la parte superior */
+  left: 3%; /* Ajusta la posición desde la izquierda */
+}
+
+
+</style>
   

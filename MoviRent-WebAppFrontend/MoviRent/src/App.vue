@@ -15,7 +15,7 @@ import HelloWorld from './components/HelloWorld.vue';
 
     <!-- Cargar imágenes -->
     <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" />
-    <img alt="Vue logo" class="logo" src="@/assets/tuto.png" width="250" height="250" />
+    <img alt="Vue logo" class="logito" src="@/assets/tuto.png" width="250" height="250" />
 
     <!-- División del contenedor -->
     <div class="wrapper">
@@ -46,6 +46,25 @@ header {
 .logo {
   display: block;
   margin: 0 auto 2rem;
+  position: absolute; /* Cambia la posición del logo */
+  top: 2%; /* Ajusta la posición desde la parte superior */
+  left: 69%; /* Ajusta la posición desde la izquierda */
+}
+
+.logito{
+  display: block;
+  margin: 0 auto 2rem;
+  position: absolute; /* Cambia la posición del logo */
+  top: 2%; /* Ajusta la posición desde la parte superior */
+  left: 80%; /* Ajusta la posición desde la izquierda */
+}
+
+.wrapper {
+  position: absolute; /* Cambia la posición del contenedor */
+  top: 15%; /* Ajusta la posición desde la parte superior */
+  left: 35%; /* Ajusta la posición desde la izquierda */
+  transform: translate(-50%, -50%); /* Centra el contenedor */
+  text-align: center; /* Centra el texto dentro del contenedor */
 }
 
 nav {

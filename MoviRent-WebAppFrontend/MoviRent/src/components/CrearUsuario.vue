@@ -1,5 +1,6 @@
 <template>
     <div>
+      
       <h2>Crear Usuario</h2>
       <form @submit.prevent="crearUsuario">
         <div>
@@ -62,15 +63,25 @@
   </script>
   
   <style scoped>
-  form {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    width: 300px;
-  }
   
-  button {
-    margin-top: 10px;
-  }
-  </style>
+h2 {
+  display: block;
+  margin: 0 auto 2rem;
+  position: absolute; /* Cambia la posición del logo */
+  top: 33%; /* Ajusta la posición desde la parte superior */
+  left: 3%; /* Ajusta la posición desde la izquierda */
+}
+
+form {
+  display: block;
+  margin: 0 auto 2rem;
+  position: absolute; /* Cambia la posición del logo */
+  top: 40%; /* Ajusta la posición desde la parte superior */
+  left: 3%; /* Ajusta la posición desde la izquierda */
+}
+
+button {
+  margin-top: 15px;
+}
+</style>
   

@@ -62,14 +62,24 @@ export default {
 </script>
 
 <style scoped>
+
+h2 {
+  display: block;
+  margin: 0 auto 2rem;
+  position: absolute; /* Cambia la posición del logo */
+  top: 33%; /* Ajusta la posición desde la parte superior */
+  left: 3%; /* Ajusta la posición desde la izquierda */
+}
+
 form {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  width: 300px;
+  display: block;
+  margin: 0 auto 2rem;
+  position: absolute; /* Cambia la posición del logo */
+  top: 40%; /* Ajusta la posición desde la parte superior */
+  left: 3%; /* Ajusta la posición desde la izquierda */
 }
 
 button {
-  margin-top: 10px;
+  margin-top: 15px;
 }
 </style>

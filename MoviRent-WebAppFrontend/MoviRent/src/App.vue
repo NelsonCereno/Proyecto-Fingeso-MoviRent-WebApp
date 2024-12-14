@@ -27,6 +27,7 @@ import HelloWorld from './components/HelloWorld.vue';
         <RouterLink to="/about">About</RouterLink>
         <RouterLink to="/crear-reporte">Crear Reporte</RouterLink>
         <RouterLink to="/crear-usuario">Crear Usuario</RouterLink>
+        <RouterLink to="/arriendos">Crear Arriendo</RouterLink>
         <RouterLink to="/vehiculos">Ver Vehículos</RouterLink> 
       </nav>
       

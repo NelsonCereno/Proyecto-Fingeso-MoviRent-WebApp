@@ -14,8 +14,8 @@ import HelloWorld from './components/HelloWorld.vue';
   <header>
 
     <!-- Cargar imágenes -->
-    <img alt="Vue logo" class="logo" src="@/assets/estafaPiramidal.jpg" width="250" height="150" />
-    <img alt="Vue logo" class="logito" src="@/assets/tuto.png" width="250" height="250" />
+    <img alt="Vue logo" class="logo" src="@/assets/estafaPiramidal.jpg" width="250" height="125" />
+    <img alt="Vue logo" class="logito" src="@/assets/tuto.png" width="125" height="125" />
 
     <!-- División del contenedor -->
     <div class="wrapper">
@@ -48,7 +48,7 @@ header {
   margin: 0 auto 2rem;
   position: absolute; /* Cambia la posición del logo */
   top: 2%; /* Ajusta la posición desde la parte superior */
-  left: 69%; /* Ajusta la posición desde la izquierda */
+  left: 78%; /* Ajusta la posición desde la izquierda */
 }
 
 .logito{
@@ -56,15 +56,14 @@ header {
   margin: 0 auto 2rem;
   position: absolute; /* Cambia la posición del logo */
   top: 2%; /* Ajusta la posición desde la parte superior */
-  left: 80%; /* Ajusta la posición desde la izquierda */
+  left: 65%; /* Ajusta la posición desde la izquierda */
 }
 
 .wrapper {
+  display: absolute;
   position: absolute; /* Cambia la posición del contenedor */
-  top: 15%; /* Ajusta la posición desde la parte superior */
-  left: 35%; /* Ajusta la posición desde la izquierda */
-  transform: translate(-50%, -50%); /* Centra el contenedor */
-  text-align: center; /* Centra el texto dentro del contenedor */
+  top: 0%; /* Ajusta la posición desde la parte superior */
+  left: 3%; /* Ajusta la posición desde la izquierda */
 }
 
 nav {

@@ -3,10 +3,8 @@ package Grupo_5.MoviRent_WebApp.ModuloVehiculo.Entidades;
 import jakarta.persistence.*;
 import lombok.*;
 
-@Setter
-@Getter
-@Data
 @Entity
+@Data
 @Table
 
 @AllArgsConstructor
@@ -17,8 +15,10 @@ public class EntidadVehiculo {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long idVehiculo;
     private String patente;
+    private int nroPasajeros;
+    private int capacidadMaletero;
     private String codigoAcriss;
     private String marca;
     private String modelo;
@@ -31,15 +31,35 @@ public class EntidadVehiculo {
     private String tipo;
     private String estado;
     private String descripcion;
-    private String imagen;
+    private String imagen; //Aca anexar una URL con el modelo del auto.
 
 
-    public Long getId() {
-        return id;
+    public Long getIdVehiculo() {
+        return idVehiculo;
     }
 
     public void setId(Long id) {
-        this.id = id;
+        this.idVehiculo = id;
+    }
+
+    public int getNroPasajeros() {
+        return nroPasajeros;
+    }
+
+    public void setNroPasajeros(int nroPasajeros) {
+        this.nroPasajeros = nroPasajeros;
+    }
+
+    public int getCapacidadMaletero() {
+        return capacidadMaletero;
+    }
+
+    public void setCapacidadMaletero(int capacidadMaletero) {
+        this.capacidadMaletero = capacidadMaletero;
+    }
+
+    public void setIdVehiculo(Long idVehiculo) {
+        this.idVehiculo = idVehiculo;
     }
 
     public String getPatente() {

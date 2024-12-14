@@ -211,7 +211,5 @@ ul{
   top: 58%; /* Ajusta la posición desde la parte superior */
   left: 3%; /* Ajusta la posición desde la izquierda */
 }
-
-
 </style>
   

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="form-container">
     <h2>Crear Reporte</h2>
     <form @submit.prevent="crearReporte">
       <div>
@@ -62,21 +62,22 @@ export default {
 </script>
 
 <style scoped>
-
-h2 {
-  display: block;
-  margin: 0 auto 2rem;
-  position: absolute; /* Cambia la posición del logo */
-  top: 33%; /* Ajusta la posición desde la parte superior */
+.form-container {
+  display: absolute;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh; /* Ocupa toda la altura de la ventana */
+  position: absolute; /* Cambia la posición del contenedor */
+  top: 30%; /* Ajusta la posición desde la parte superior */
   left: 3%; /* Ajusta la posición desde la izquierda */
 }
 
 form {
-  display: block;
-  margin: 0 auto 2rem;
-  position: absolute; /* Cambia la posición del logo */
-  top: 40%; /* Ajusta la posición desde la parte superior */
-  left: 3%; /* Ajusta la posición desde la izquierda */
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 300px;
 }
 
 button {

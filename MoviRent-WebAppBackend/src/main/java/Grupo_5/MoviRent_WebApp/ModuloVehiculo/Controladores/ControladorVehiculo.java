@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 @RestController
@@ -47,6 +48,7 @@ public class ControladorVehiculo {
         return ResponseEntity.ok(vehiculos);
     }
 
+
     // Eliminar un vehículo
     @DeleteMapping("/eliminar/{id}")
     public ResponseEntity<String> eliminarVehiculo(@PathVariable Long id) {
@@ -68,13 +70,21 @@ public class ControladorVehiculo {
 
     // Filtrar por disponibilidad
     @GetMapping("/disponibles")
-    public ResponseEntity<List<EntidadVehiculo>> filtrarPorDisponibilidad(@RequestParam Boolean disponible) {
-        List<EntidadVehiculo> vehiculos = servicioVehiculo.buscarPorDisponibilidad(disponible);
-        if (vehiculos.isEmpty()) {
-            logger.info("No se encontraron vehículos con disponibilidad: " + disponible);
-            return ResponseEntity.noContent().build(); // 204 No Content
+    public ResponseEntity<List<EntidadVehiculo>> obtenerPorDisponibilidad(@RequestParam(required = false) Boolean disponibilidad) {
+        if (disponibilidad == null) {
+            return ResponseEntity.badRequest().body(new ArrayList<>()); // Devuelve un error claro si falta el parámetro
         }
+        List<EntidadVehiculo> vehiculos = servicioVehiculo.buscarPorDisponibilidad(disponibilidad);
         return ResponseEntity.ok(vehiculos);
     }
+
+    //Filtrar por capacidad pasajeros
+    @GetMapping("/capacidad")
+    public ResponseEntity<List<EntidadVehiculo>> filtrarPorNroPasajeros(@RequestParam String nroPasajeros) {
+        Integer pasajeros = Integer.parseInt(nroPasajeros);
+        List<EntidadVehiculo> vehiculos = servicioVehiculo.buscarPorNroPasajeros(pasajeros);
+        return ResponseEntity.ok(vehiculos);
+    }
+
 
 }

@@ -17,8 +17,8 @@ public class EntidadVehiculo {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idVehiculo;
     private String patente;
-    private int nroPasajeros;
-    private int capacidadMaletero;
+    private Integer nroPasajeros;
+    private Integer capacidadMaletero;
     private String codigoAcriss;
     private String marca;
     private String modelo;
@@ -42,19 +42,19 @@ public class EntidadVehiculo {
         this.idVehiculo = id;
     }
 
-    public int getNroPasajeros() {
+    public Integer getNroPasajeros() {
         return nroPasajeros;
     }
 
-    public void setNroPasajeros(int nroPasajeros) {
+    public void setNroPasajeros(Integer nroPasajeros) {
         this.nroPasajeros = nroPasajeros;
     }
 
-    public int getCapacidadMaletero() {
+    public Integer getCapacidadMaletero() {
         return capacidadMaletero;
     }
 
-    public void setCapacidadMaletero(int capacidadMaletero) {
+    public void setCapacidadMaletero(Integer capacidadMaletero) {
         this.capacidadMaletero = capacidadMaletero;
     }
 
@@ -173,4 +173,5 @@ public class EntidadVehiculo {
     public void setImagen(String imagen) {
         this.imagen = imagen;
     }
+
 }

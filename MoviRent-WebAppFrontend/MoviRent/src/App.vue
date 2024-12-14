@@ -3,30 +3,31 @@
 //npm install axios
 //npm run dev
 
-//Funcionalidades de la pagina (JavaScript)
+// Funcionalidades de la página (JavaScript)
 <script setup>
-import { RouterLink, RouterView } from 'vue-router'
-import HelloWorld from './components/HelloWorld.vue'
+import { RouterLink, RouterView } from 'vue-router';
+import HelloWorld from './components/HelloWorld.vue';
 </script>
 
-
-//Estructura base de la pagina (HTML)
+// Estructura base de la página (HTML)
 <template>
   <header>
 
-    //Cargar imagenes
+    <!-- Cargar imágenes -->
     <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" />
     <img alt="Vue logo" class="logo" src="@/assets/tuto.png" width="250" height="250" />
 
-    //Division de contenedor
+    <!-- División del contenedor -->
     <div class="wrapper">
       <HelloWorld msg="Hola!" />
 
+      <!-- Navegación -->
       <nav>
         <RouterLink to="/">Home</RouterLink>
         <RouterLink to="/about">About</RouterLink>
-        <RouterLink to="/crear-reporte">Crear Reporte</RouterLink> <!-- Enlace a la nueva ruta -->
-        <RouterLink to="/crear-usuario">Crear Usuario</RouterLink> <!-- Enlace a la nueva ruta -->
+        <RouterLink to="/crear-reporte">Crear Reporte</RouterLink>
+        <RouterLink to="/crear-usuario">Crear Usuario</RouterLink>
+        <RouterLink to="/vehiculos">Ver Vehículos</RouterLink> 
       </nav>
       
     </div>
@@ -35,8 +36,7 @@ import HelloWorld from './components/HelloWorld.vue'
   <RouterView />
 </template>
 
-
-//Estetica de la Pagina (CSS)
+// Estética de la página (CSS)
 <style scoped>
 header {
   line-height: 1.5;
@@ -100,3 +100,4 @@ nav a:first-of-type {
   }
 }
 </style>
+

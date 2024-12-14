@@ -13,6 +13,8 @@ public interface RepositorioVehiculo extends JpaRepository<EntidadVehiculo, Long
 
     // Buscar por disponibilidad
     List<EntidadVehiculo> findByDisponibilidad(Boolean disponibilidad);
+    //Busca por capacidad de pasajeros
+    List<EntidadVehiculo> findByNroPasajeros(Integer nroPasajeros);
 
 }
 

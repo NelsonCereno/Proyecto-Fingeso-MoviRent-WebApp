@@ -3,29 +3,28 @@
     <h1>Lista de Vehículos</h1>
 
     <!-- Filtros -->
-      <label1>
-    Disponibilidad:
-    <select v-model="filtroDisponibilidad" @change="filtrarPorDisponibilidad">
-      <option value="">Todos</option>
-      <option :value="'true'">Disponibles</option>
-      <option :value="'false'">No disponibles</option>
-    </select>
-      </label1>
+    <div class="filtro">
+      <label for="filtroDisponibilidad">Disponibilidad:</label>
+      <select id="filtroDisponibilidad" v-model="filtroDisponibilidad" @change="filtrarPorDisponibilidad">
+        <option value="">Todos</option>
+        <option :value="'true'">Disponibles</option>
+        <option :value="'false'">No disponibles</option>
+      </select>
+    </div>
 
-      <label2>
-        Capacidad:
-        <select v-model="filtroCapacidad" @change="filtrarPorCapacidad">
-          <!-- Las capacidades únicas se calculan dinámicamente -->
-          <option v-for="capacidad in capacidadesUnicas" :key="capacidad" :value="capacidad">
-            {{ capacidad }} Pasajeros
-          </option>
-        </select>
-      </label2>
-
+    <div class="filtro">
+      <label for="filtroCapacidad">Capacidad:</label>
+      <select id="filtroCapacidad" v-model="filtroCapacidad" @change="filtrarPorCapacidad">
+        <option value="">Todos</option>
+        <option v-for="capacidad in capacidadesUnicas" :key="capacidad" :value="capacidad">
+          {{ capacidad }} Pasajeros
+        </option>
+      </select>
+    </div>
 
     <!-- Lista de vehículos -->
-    <ul v-if="vehiculos.length">
-      <li v-for="vehiculo in vehiculos" :key="vehiculo.idVehiculo">
+    <div class="vehiculos-container">
+      <div class="vehiculo" v-for="vehiculo in vehiculos" :key="vehiculo.idVehiculo">
         <p><strong>Patente:</strong> {{ vehiculo.patente || "Sin patente" }}</p>
         <p><strong>Modelo:</strong> {{ vehiculo.modelo || "Sin modelo" }}</p>
         <p><strong>Marca:</strong> {{ vehiculo.marca || "Sin marca" }}</p>
@@ -35,181 +34,175 @@
         <p><strong>Disponibilidad:</strong> 
           {{ vehiculo.disponibilidad ? "Disponible" : "No disponible" }}
         </p>
-        <p>
-          <a :href="vehiculo.imagen" target="_blank" v-if="vehiculo.imagen">Ver imagen</a>
-          <span v-else>Sin imagen</span>
-        </p>
-      </li>
-    </ul>
+        <div v-if="vehiculo.imagen">
+          <img :src="vehiculo.imagen" alt="Imagen del vehículo" />
+        </div>
+        <span v-else>Sin imagen</span>
+      </div>
+    </div>
 
-    <p1 v-else>No se encontraron vehículos.</p1>
+    <p v-if="vehiculos.length === 0" class="mensaje">No se encontraron vehículos.</p>
 
     <!-- Mensaje de error -->
-    <p2 v-if="error" style="color: red;">{{ error }}</p2>
-
+    <p v-if="error" class="mensaje-error">{{ error }}</p>
   </div>
 </template>
 
-
-
-  
 <script>
 import axios from 'axios';
 
 export default {
   name: 'VerVehiculos',
   data() {
-  return {
-    vehiculos: [], // Lista de vehículos a mostrar
-    filtroDisponibilidad: '', // Valor inicial del filtro ('Todos')
-    error: '', // Mensaje de error si ocurre algún problema
-  };
-},
+    return {
+      vehiculos: [], // Lista de vehículos a mostrar
+      filtroDisponibilidad: '', // Valor inicial del filtro ('Todos')
+      filtroCapacidad: '', // Valor inicial del filtro de capacidad
+      error: '', // Mensaje de error si ocurre algún problema
+    };
+  },
   computed:  {
     capacidadesUnicas() {
-    // Extrae las capacidades únicas y las ordena ascendentemente
-    const capacidades = [...new Set(this.vehiculos.map((v) => v.nroPasajeros))];
-    return capacidades.sort((a, b) => a - b); // Orden ascendente
-  }
-},
-
+      // Extrae las capacidades únicas y las ordena ascendentemente
+      const capacidades = [...new Set(this.vehiculos.map((v) => v.nroPasajeros))];
+      return capacidades.sort((a, b) => a - b); // Orden ascendente
+    }
+  },
   created() {
     this.obtenerTodosLosVehiculos(); // Carga inicial de todos los vehículos
   },
   methods: {
     // Obtiene todos los vehículos desde el backend
     async obtenerTodosLosVehiculos() {
-  try {
-    console.log('Solicitando todos los vehículos...');
-    const respuesta = await axios.get('http://localhost:8080/vehiculo/todos'); // URL completa
-    console.log('Respuesta del backend:', respuesta.data); // Depuración
-    this.vehiculos = Array.isArray(respuesta.data) ? respuesta.data : [];
-  } catch (error) {
-    this.error = 'Error al cargar vehículos.';
-    console.error('Error en obtenerTodosLosVehiculos:', error);
-  }
-}
-
-
-,
+      try {
+        console.log('Solicitando todos los vehículos...');
+        const respuesta = await axios.get('http://localhost:8080/vehiculo/todos'); // URL completa
+        console.log('Respuesta del backend:', respuesta.data); // Depuración
+        this.vehiculos = Array.isArray(respuesta.data) ? respuesta.data : [];
+      } catch (error) {
+        this.error = 'Error al cargar vehículos.';
+        console.error('Error en obtenerTodosLosVehiculos:', error);
+      }
+    },
 
     // Filtra vehículos por disponibilidad
     async filtrarPorDisponibilidad() {
-  try {
-    switch (this.filtroDisponibilidad) {
-      case '': // Todos
-        console.log('Cargando todos los vehículos...');
-        this.obtenerTodosLosVehiculos(); // Llama al método para obtener todos
-        break;
+      try {
+        switch (this.filtroDisponibilidad) {
+          case '': // Todos
+            console.log('Cargando todos los vehículos...');
+            this.obtenerTodosLosVehiculos(); // Llama al método para obtener todos
+            break;
+          case 'true': // Disponibles
+            console.log('Cargando vehículos disponibles...');
+            const respuestaDisponibles = await axios.get('http://localhost:8080/vehiculo/disponibles?disponibilidad=true');
+            console.log('Vehículos disponibles:', respuestaDisponibles.data);
+            this.vehiculos = Array.isArray(respuestaDisponibles.data)
+              ? respuestaDisponibles.data
+              : [];
+            break;
+          case 'false': // No disponibles
+            console.log('Cargando vehículos no disponibles...');
+            const respuestaNoDisponibles = await axios.get('http://localhost:8080/vehiculo/disponibles?disponibilidad=false');
+            console.log('Vehículos no disponibles:', respuestaNoDisponibles.data);
+            this.vehiculos = Array.isArray(respuestaNoDisponibles.data)
+              ? respuestaNoDisponibles.data
+              : [];
+            break;
+          default:
+            console.log('Opción no reconocida');
+            this.error = 'Opción no válida en el filtro de disponibilidad.';
+        }
+      } catch (error) {
+        console.error('Error al filtrar por disponibilidad:', error);
+        this.error = 'Error al cargar vehículos según disponibilidad.';
+      }
+    },
 
-      case 'true': // Disponibles
-        console.log('Cargando vehículos disponibles...');
-        const respuestaDisponibles = await axios.get('http://localhost:8080/vehiculo/disponibles?disponibilidad=true');
-        console.log('Vehículos disponibles:', respuestaDisponibles.data);
-        this.vehiculos = Array.isArray(respuestaDisponibles.data)
-          ? respuestaDisponibles.data
-          : [];
-        break;
+    async filtrarPorCapacidad() {
+      if (this.filtroCapacidad === '') {
+        this.obtenerTodosLosVehiculos(); // Si no hay filtro, carga todos
+        return;
+      }
+      try {
+        // Construcción dinámica de la URL con el parámetro seleccionado
+        const url = `http://localhost:8080/vehiculo/capacidad?nroPasajeros=${this.filtroCapacidad}`;
+        console.log('URL solicitada:', url);
 
-      case 'false': // No disponibles
-        console.log('Cargando vehículos no disponibles...');
-        const respuestaNoDisponibles = await axios.get('http://localhost:8080/vehiculo/disponibles?disponibilidad=false');
-        console.log('Vehículos no disponibles:', respuestaNoDisponibles.data);
-        this.vehiculos = Array.isArray(respuestaNoDisponibles.data)
-          ? respuestaNoDisponibles.data
-          : [];
-        break;
+        // Realiza la solicitud al backend
+        const respuesta = await axios.get(url);
+        console.log('Respuesta del backend:', respuesta.data);
 
-      default:
-        console.log('Opción no reconocida');
-        this.error = 'Opción no válida en el filtro de disponibilidad.';
-    }
-  } catch (error) {
-    console.error('Error al filtrar por disponibilidad:', error);
-    this.error = 'Error al cargar vehículos según disponibilidad.';
-  }
-}
-,
+        // Actualiza la lista de vehículos con los datos filtrados
+        this.vehiculos = respuesta.data;
 
-async filtrarPorCapacidad() {
-  if (this.filtroCapacidad === '') {
-    this.obtenerTodosLosVehiculos(); // Si no hay filtro, carga todos
-    return;
-  }
-  try {
-    // Construcción dinámica de la URL con el parámetro seleccionado
-    const url = `/vehiculo/capacidad?nroPasajeros=${this.filtroCapacidad}`;
-    console.log('URL solicitada:', url);
-
-    // Realiza la solicitud al backend
-    const respuesta = await axios.get(url);
-    console.log('Respuesta del backend:', respuesta.data);
-
-    // Actualiza la lista de vehículos con los datos filtrados
-    this.vehiculos = respuesta.data;
-
-    // Limpia el mensaje de error
-    this.error = '';
-  } catch (error) {
-    // Manejo de errores
-    this.error = 'Error al filtrar por capacidad.';
-    console.error('Error al filtrar capacidad:', error);
-  }
-},
-
+        // Limpia el mensaje de error
+        this.error = '';
+      } catch (error) {
+        // Manejo de errores
+        this.error = 'Error al filtrar por capacidad.';
+        console.error('Error al filtrar capacidad:', error);
+      }
+    },
   },
 };
 </script>
 
-  
 <style>
 /* Estilos opcionales */
 h1 {
   display: block;
   margin: 0 auto 2rem;
-  position: absolute; /* Cambia la posición del logo */
-  top: 33%; /* Ajusta la posición desde la parte superior */
-  left: 3%; /* Ajusta la posición desde la izquierda */
+  position: absolute;
+  top: 33%;
+  left: 3%;
 }
 
-label1 {
-  display: block;
-  margin: 0 auto 2rem;
-  position: absolute; /* Cambia la posición del logo */
-  top: 43%; /* Ajusta la posición desde la parte superior */
-  left: 3%; /* Ajusta la posición desde la izquierda */
+.filtro {
+  margin-bottom: 20px; /* Añade espacio entre los filtros */
 }
 
-label2 {
+.mensaje {
   display: block;
   margin: 0 auto 2rem;
-  position: absolute; /* Cambia la posición del logo */
-  top: 43%; /* Ajusta la posición desde la parte superior */
-  left: 21%; /* Ajusta la posición desde la izquierda */
+  position: absolute;
+  top: 48%;
+  left: 3%;
 }
 
-p1{
+.mensaje-error {
   display: block;
   margin: 0 auto 2rem;
-  position: absolute; /* Cambia la posición del logo */
-  top: 48%; /* Ajusta la posición desde la parte superior */
-  left: 3%; /* Ajusta la posición desde la izquierda */
+  position: absolute;
+  top: 53%;
+  left: 3%;
+  color: brown;
 }
 
-p2{
-  display: block;
-  margin: 0 auto 2rem;
-  position: absolute; /* Cambia la posición del logo */
-  top: 53%; /* Ajusta la posición desde la parte superior */
-  left: 3%; /* Ajusta la posición desde la izquierda */
+.vehiculos-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px; /* Espacio entre los elementos */
+  justify-content: flex-start;
+  position: absolute;
+  top: 58%;
+  left: 3%;
+  right: 3%;
 }
 
-ul{
+.vehiculo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: calc(33.33% - 10px); /* Tres columnas con espacio entre ellas */
+  margin-bottom: 20px;
+}
+
+.vehiculo img {
+  width: 100%;
+  height: auto;
+  max-width: 300px; /* Ajusta según tus necesidades */
   display: block;
-  margin: 0 auto 2rem;
-  position: absolute; /* Cambia la posición del logo */
-  top: 58%; /* Ajusta la posición desde la parte superior */
-  left: 3%; /* Ajusta la posición desde la izquierda */
+  margin-top: 10px;
 }
 </style>
-  

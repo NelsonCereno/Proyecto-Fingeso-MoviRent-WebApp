@@ -27,15 +27,20 @@ public class ServicioUsuario {
         return repositorioUsuario.save(usuario);
     }
 
+    // Método para verificar si un correo ya existe
+    public boolean existeCorreo(String correo) {
+        return repositorioUsuario.existsByCorreo(correo);
+    }
+
     //read
     public EntidadUsuario getUsuarioById(Long id){
         return
                 repositorioUsuario.findById(id).orElse(null);
     }
 
-    public List<EntidadUsuario> getAllUsuarios(){
-        return
-                repositorioUsuario.findAll();
+    //obtener todos los usuarios
+    public List<EntidadUsuario> getAllUsuarios() {
+        return repositorioUsuario.findAll();
     }
 
     //Update

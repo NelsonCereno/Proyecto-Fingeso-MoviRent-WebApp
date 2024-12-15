@@ -24,6 +24,7 @@ public class EntidadUsuario {
 
     private String apellido;
 
+    @Column(unique = true, nullable = false)
     private String correo;
 
     private String contrasena;

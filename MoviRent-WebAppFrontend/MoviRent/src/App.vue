@@ -1,4 +1,3 @@
-
 //npm install -g npm
 //npm install axios
 //npm run dev
@@ -6,16 +5,12 @@
 // Funcionalidades de la página (JavaScript)
 <script setup>
 import { RouterLink, RouterView } from 'vue-router';
-import HelloWorld from './components/HelloWorld.vue';
 </script>
 
 // Estructura base de la página (HTML)
 <template>
-  <header>
 
-    <!-- Cargar imágenes -->
-    <img alt="Vue logo" class="logo" src="@/assets/estafaPiramidal.jpg" width="250" height="125" />
-    <img alt="Vue logo" class="logito" src="@/assets/tuto.png" width="125" height="125" />
+  <header>
 
     <!-- División del contenedor -->
     <div class="wrapper">
@@ -32,39 +27,78 @@ import HelloWorld from './components/HelloWorld.vue';
       </nav>
       
     </div>
+     
+     <!-- Navegación -->
+     <nav>
+       <RouterLink to="/">Inicio</RouterLink>
+       <RouterLink to="/SobreNosotros">SobreNosotros</RouterLink>
+       <RouterLink to="/crear-reporte">Crear Reporte</RouterLink>
+       <RouterLink to="/crear-usuario">Crear Usuario</RouterLink>
+       <RouterLink to="/crear-vehiculo">Crear Vehículo</RouterLink>
+       <RouterLink to="/vehiculos">Ver Vehículos</RouterLink> 
+       <RouterLink to="/ver-reportes">Ver Reportes</RouterLink>
+     </nav>
+     
+   </div>
+   
+    <logos>
+
+    <img alt="Vue logo" class="logo" src="@/assets/estafaPiramidal.jpg" width="250" height="125" />
+    
+    </logos>
+
   </header>
 
-  <RouterView />
+  <div class="container-web">
+    <RouterView />
+  </div>
+
 </template>
 
 // Estética de la página (CSS)
 <style scoped>
 header {
   line-height: 1.5;
-  max-height: 100vh;
+  max-height: 125px;
+  top: 0%;
+  left: 0%;
+  width: 100%;
+  position : absolute;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color:#181818;
 }
 
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
-  position: absolute; /* Cambia la posición del logo */
-  top: 2%; /* Ajusta la posición desde la parte superior */
-  left: 78%; /* Ajusta la posición desde la izquierda */
-}
-
-.logito{
-  display: block;
-  margin: 0 auto 2rem;
-  position: absolute; /* Cambia la posición del logo */
-  top: 2%; /* Ajusta la posición desde la parte superior */
-  left: 65%; /* Ajusta la posición desde la izquierda */
+logos {
+  display: flex;
+  width: 25%;
+  height: 100%;
+  background-color: #181818;
+  justify-content: center;
+  align-items: center;
 }
 
 .wrapper {
-  display: absolute;
-  position: absolute; /* Cambia la posición del contenedor */
-  top: 0%; /* Ajusta la posición desde la parte superior */
-  left: 3%; /* Ajusta la posición desde la izquierda */
+  width: 75%;
+  height: 100%;
+  display: flex;
+  background-color: #181818;
+  justify-content: center;
+  align-items: center;
+
+}
+
+.container-web {
+  width: 100%;
+  height: calc(100% - 125px);
+  display: flex;
+  position: absolute;
+  justify-content: center;
+  align-items: center;
+  background-color: #07875c;
+  bottom: 0%;
+  left: 0%;
 }
 
 nav {
@@ -119,4 +153,3 @@ nav a:first-of-type {
   }
 }
 </style>
-

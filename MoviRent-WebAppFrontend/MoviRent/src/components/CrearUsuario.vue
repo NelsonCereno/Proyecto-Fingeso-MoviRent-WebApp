@@ -67,7 +67,6 @@ export default {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 100vh; /* Ocupa toda la altura de la ventana */
   position: absolute; /* Cambia la posición del contenedor */
   top: 30%; /* Ajusta la posición desde la parte superior */
   left: 3%; /* Ajusta la posición desde la izquierda */

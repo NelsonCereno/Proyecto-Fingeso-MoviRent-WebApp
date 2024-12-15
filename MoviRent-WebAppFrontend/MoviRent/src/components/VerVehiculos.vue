@@ -45,7 +45,7 @@
     <p1 v-else>No se encontraron vehículos.</p1>
 
     <!-- Mensaje de error -->
-    <p2 v-if="error" style="color: red;">{{ error }}</p2>
+    <p2 v-if="error" style="color: brown;">{{ error }}</p2>
 
   </div>
 </template>
@@ -178,6 +178,7 @@ label1 {
   position: absolute; /* Cambia la posición del logo */
   top: 43%; /* Ajusta la posición desde la parte superior */
   left: 3%; /* Ajusta la posición desde la izquierda */
+
 }
 
 label2 {
@@ -186,6 +187,7 @@ label2 {
   position: absolute; /* Cambia la posición del logo */
   top: 43%; /* Ajusta la posición desde la parte superior */
   left: 21%; /* Ajusta la posición desde la izquierda */
+
 }
 
 p1{
@@ -194,6 +196,7 @@ p1{
   position: absolute; /* Cambia la posición del logo */
   top: 48%; /* Ajusta la posición desde la parte superior */
   left: 3%; /* Ajusta la posición desde la izquierda */
+
 }
 
 p2{
@@ -202,6 +205,7 @@ p2{
   position: absolute; /* Cambia la posición del logo */
   top: 53%; /* Ajusta la posición desde la parte superior */
   left: 3%; /* Ajusta la posición desde la izquierda */
+
 }
 
 ul{
@@ -210,6 +214,7 @@ ul{
   position: absolute; /* Cambia la posición del logo */
   top: 58%; /* Ajusta la posición desde la parte superior */
   left: 3%; /* Ajusta la posición desde la izquierda */
+
 }
 </style>
   

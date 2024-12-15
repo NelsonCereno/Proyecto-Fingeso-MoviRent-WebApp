@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import HomeView from '../views/HomeView.vue';
+import Bienvenida from '../views/Bienvenida.vue';
 import CrearReporte from '../components/CrearReporte.vue';
 import CrearUsuario from '@/components/CrearUsuario.vue'; // Importa el componente CrearUsuario
 import VerVehiculos from '@/components/VerVehiculos.vue'; // Asegúrate de usar el nombre y ruta correctos
@@ -9,13 +9,13 @@ const router = createRouter({
   routes: [
     {
       path: '/',
-      name: 'home',
-      component: HomeView,
+      name: 'Inicio',
+      component: Bienvenida,
     },
     {
-      path: '/about',
-      name: 'about',
-      component: () => import('../views/AboutView.vue'),
+      path: '/SobreNosotros', 
+      name: 'SobreNosotros',
+      component: () => import('../views/SobreNosotros.vue'),
     },
     {
       path: '/crear-reporte',

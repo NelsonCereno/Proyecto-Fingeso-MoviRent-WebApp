@@ -14,6 +14,19 @@ import { RouterLink, RouterView } from 'vue-router';
 
     <!-- División del contenedor -->
     <div class="wrapper">
+      <HelloWorld msg="Hola!" />
+
+      <!-- Navegación -->
+      <nav>
+        <RouterLink to="/">Home</RouterLink>
+        <RouterLink to="/about">About</RouterLink>
+        <RouterLink to="/crear-reporte">Crear Reporte</RouterLink>
+        <RouterLink to="/crear-usuario">Crear Usuario</RouterLink>
+        <RouterLink to="/arriendos">Crear Arriendo</RouterLink>
+        <RouterLink to="/vehiculos">Ver Vehículos</RouterLink> 
+      </nav>
+      
+    </div>
      
      <!-- Navegación -->
      <nav>

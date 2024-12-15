@@ -3,29 +3,28 @@
     <h1>Lista de Vehículos</h1>
 
     <!-- Filtros -->
-    <label1>
-      Disponibilidad:
-      <select v-model="filtroDisponibilidad" @change="filtrarPorDisponibilidad">
+    <div class="filtro">
+      <label for="filtroDisponibilidad">Disponibilidad:</label>
+      <select id="filtroDisponibilidad" v-model="filtroDisponibilidad" @change="filtrarPorDisponibilidad">
         <option value="">Todos</option>
         <option :value="'true'">Disponibles</option>
         <option :value="'false'">No disponibles</option>
       </select>
-    </label1>
+    </div>
 
-    <label2>
-      Capacidad:
-      <select v-model="filtroCapacidad" @change="filtrarPorCapacidad">
-        <!-- Las capacidades únicas se calculan dinámicamente -->
+    <div class="filtro">
+      <label for="filtroCapacidad">Capacidad:</label>
+      <select id="filtroCapacidad" v-model="filtroCapacidad" @change="filtrarPorCapacidad">
         <option value="">Todos</option>
         <option v-for="capacidad in capacidadesUnicas" :key="capacidad" :value="capacidad">
           {{ capacidad }} Pasajeros
         </option>
       </select>
-    </label2>
+    </div>
 
     <!-- Lista de vehículos -->
-    <ul v-if="vehiculos.length">
-      <li v-for="vehiculo in vehiculos" :key="vehiculo.idVehiculo">
+    <div class="vehiculos-container">
+      <div class="vehiculo" v-for="vehiculo in vehiculos" :key="vehiculo.idVehiculo">
         <p><strong>Patente:</strong> {{ vehiculo.patente || "Sin patente" }}</p>
         <p><strong>Modelo:</strong> {{ vehiculo.modelo || "Sin modelo" }}</p>
         <p><strong>Marca:</strong> {{ vehiculo.marca || "Sin marca" }}</p>
@@ -39,13 +38,13 @@
           <img :src="vehiculo.imagen" alt="Imagen del vehículo" />
         </div>
         <span v-else>Sin imagen</span>
-      </li>
-    </ul>
+      </div>
+    </div>
 
-    <p1 v-else>No se encontraron vehículos.</p1>
+    <p v-if="vehiculos.length === 0" class="mensaje">No se encontraron vehículos.</p>
 
     <!-- Mensaje de error -->
-    <p2 v-if="error" style="color: brown;">{{ error }}</p2>
+    <p v-if="error" class="mensaje-error">{{ error }}</p>
   </div>
 </template>
 
@@ -154,55 +153,56 @@ export default {
 h1 {
   display: block;
   margin: 0 auto 2rem;
-  position: absolute; /* Cambia la posición del logo */
-  top: 33%; /* Ajusta la posición desde la parte superior */
-  left: 3%; /* Ajusta la posición desde la izquierda */
+  position: absolute;
+  top: 33%;
+  left: 3%;
 }
 
-label1 {
+.filtro {
+  margin-bottom: 20px; /* Añade espacio entre los filtros */
+}
+
+.mensaje {
   display: block;
   margin: 0 auto 2rem;
-  position: absolute; /* Cambia la posición del logo */
-  top: 43%; /* Ajusta la posición desde la parte superior */
-  left: 3%; /* Ajusta la posición desde la izquierda */
+  position: absolute;
+  top: 48%;
+  left: 3%;
 }
 
-label2 {
+.mensaje-error {
   display: block;
   margin: 0 auto 2rem;
-  position: absolute; /* Cambia la posición del logo */
-  top: 43%; /* Ajusta la posición desde la parte superior */
-  left: 21%; /* Ajusta la posición desde la izquierda */
+  position: absolute;
+  top: 53%;
+  left: 3%;
+  color: brown;
 }
 
-p1 {
+.vehiculos-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px; /* Espacio entre los elementos */
+  justify-content: flex-start;
+  position: absolute;
+  top: 58%;
+  left: 3%;
+  right: 3%;
+}
+
+.vehiculo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: calc(33.33% - 10px); /* Tres columnas con espacio entre ellas */
+  margin-bottom: 20px;
+}
+
+.vehiculo img {
+  width: 100%;
+  height: auto;
+  max-width: 300px; /* Ajusta según tus necesidades */
   display: block;
-  margin: 0 auto 2rem;
-  position: absolute; /* Cambia la posición del logo */
-  top: 48%; /* Ajusta la posición desde la parte superior */
-  left: 3%; /* Ajusta la posición desde la izquierda */
-}
-
-p2 {
-  display: block;
-  margin: 0 auto 2rem;
-  position: absolute; /* Cambia la posición del logo */
-  top: 53%; /* Ajusta la posición desde la parte superior */
-  left: 3%; /* Ajusta la posición desde la izquierda */
-}
-
-ul {
-  display: block;
-  margin: 0 auto 2rem;
-  position: absolute; /* Cambia la posición del logo */
-  top: 58%; /* Ajusta la posición desde la parte superior */
-  left: 3%; /* Ajusta la posición desde la izquierda */
-}
-
-img {
-  width: 100px; /* Ajusta el ancho según sea necesario */
-  height: auto; /* Mantiene la proporción de la imagen */
-  display: block; /* Asegura que la imagen se muestre como un bloque */
-  margin-top: 10px; /* Añade un margen superior para separar del contenido */
+  margin-top: 10px;
 }
 </style>

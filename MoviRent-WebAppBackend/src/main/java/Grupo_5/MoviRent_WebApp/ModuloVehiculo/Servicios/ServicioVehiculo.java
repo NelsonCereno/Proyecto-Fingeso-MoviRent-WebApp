@@ -41,7 +41,7 @@ public class ServicioVehiculo {
             if (vehiculo.getPatente() == null) vehiculo.setPatente("Sin patente");
             if (vehiculo.getModelo() == null) vehiculo.setModelo("Sin modelo");
             if (vehiculo.getMarca() == null) vehiculo.setMarca("Sin marca");
-            if (vehiculo.getNroPasajeros() <= 0 || vehiculo.getNroPasajeros() == null) vehiculo.setNroPasajeros(1); // Capacidad predeterminada
+            if (vehiculo.getNroPasajeros() < 0 || vehiculo.getNroPasajeros() == null) vehiculo.setNroPasajeros(1); // Capacidad predeterminada
             if (vehiculo.getAnio() == null) vehiculo.setAnio("Desconocido");
             if (vehiculo.getPrecio() == null) vehiculo.setPrecio("No disponible");
             if (vehiculo.getTipo() == null) vehiculo.setTipo("No especificado");

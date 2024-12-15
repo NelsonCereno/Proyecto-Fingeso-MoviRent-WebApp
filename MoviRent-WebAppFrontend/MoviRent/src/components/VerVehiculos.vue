@@ -38,6 +38,7 @@
           <img :src="vehiculo.imagen" alt="Imagen del vehículo" />
         </div>
         <span v-else>Sin imagen</span>
+        <button @click="irACrearArriendo(vehiculo.idVehiculo)">Arrendar</button>
       </div>
     </div>
 
@@ -143,6 +144,11 @@ export default {
         this.error = 'Error al filtrar por capacidad.';
         console.error('Error al filtrar capacidad:', error);
       }
+    },
+    
+    // Método para redirigir a la página de creación de arriendo
+    irACrearArriendo(idVehiculo) {
+      this.$router.push({ name: 'arriendos', query: { idVehiculo } });
     },
   },
 };

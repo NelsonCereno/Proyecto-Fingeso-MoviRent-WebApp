@@ -40,14 +40,14 @@ const router = createRouter({
        component: CrearVehiculo, 
       },
     {
-      path: '/arriendos',
-      name: 'arriendos',
-      component: CrearArriendo,
-    },
-    {
       path: '/vehiculos', 
       name: 'vehiculos',
       component: VerVehiculos, 
+    },
+    {
+      path: '/arriendos',
+      name: 'arriendos',
+      component: CrearArriendo,
     },
   ],
 });

@@ -28,16 +28,24 @@ public class ControladorUsuario {
 
     //Create
     @PostMapping("/crear")
-    public ResponseEntity<String> crearUsuario(@RequestBody EntidadUsuario usuario) {    servicioUsuario.crearUsuario(usuario);
+    public ResponseEntity<String> crearUsuario(@RequestBody EntidadUsuario usuario) {
+        // Verificar si el correo ya está registrado
+        if (servicioUsuario.existeCorreo(usuario.getCorreo())) {
+            // Si el correo ya está registrado, devolver un mensaje indicando que el correo está duplicado
+            return ResponseEntity.ok("El correo ya está registrado. Intente con otro correo.");
+        }
+
+        // Si el correo no existe, se crea el usuario
+        servicioUsuario.crearUsuario(usuario);
         logger.info("Usuario creado: " + usuario.getCorreo());
-        return ResponseEntity.ok("Usuario creado: " + usuario.getId());
+        return ResponseEntity.ok("Usuario creado con éxito: " + usuario.getId());
     }
+
+
 
     @GetMapping("/todos")
     public ResponseEntity<List<EntidadUsuario>> getAllUsuarios() {
         List<EntidadUsuario> usuarios = servicioUsuario.getAllUsuarios();
         return ResponseEntity.ok(usuarios);
     }
-
-
 }

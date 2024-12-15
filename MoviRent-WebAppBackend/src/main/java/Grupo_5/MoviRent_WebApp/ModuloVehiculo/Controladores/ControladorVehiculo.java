@@ -26,9 +26,18 @@ public class ControladorVehiculo {
     // Crear un vehículo
     @PostMapping("/crear")
     public ResponseEntity<String> crearVehiculo(@RequestBody EntidadVehiculo vehiculo) {
-        servicioVehiculo.agregarVehiculo(vehiculo);
-        logger.info("Vehículo creado: " + vehiculo.getPatente());
-        return ResponseEntity.ok("Vehículo creado: " + vehiculo.getIdVehiculo());
+        try {
+            if (!servicioVehiculo.esPatenteValida(vehiculo.getPatente())) {
+                throw new IllegalArgumentException("La patente no cumple con el formato requerido, el formato debe ser AA*AA*00.");
+            }
+            if (!vehiculo.getAnio().matches("^\\d{4}$")) {
+                throw new IllegalArgumentException("El año debe ser un numero de 4 dígitos.");
+            }
+            servicioVehiculo.agregarVehiculo(vehiculo);
+            return ResponseEntity.ok("Vehículo creado con éxito.");
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 
     // Obtener un vehículo por ID

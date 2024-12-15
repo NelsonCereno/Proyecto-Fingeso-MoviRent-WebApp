@@ -3,10 +3,12 @@ package Grupo_5.MoviRent_WebApp.ModuloVehiculo.Servicios;
 import Grupo_5.MoviRent_WebApp.ModuloVehiculo.Entidades.EntidadVehiculo;
 import Grupo_5.MoviRent_WebApp.ModuloVehiculo.Repositorios.RepositorioVehiculo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.regex.Pattern;
 
 @Service
 public class ServicioVehiculo {
@@ -18,6 +20,29 @@ public class ServicioVehiculo {
     }
     //Agregar un vehículo
     public void agregarVehiculo(EntidadVehiculo vehiculo) {
+        if (!esPatenteValida(vehiculo.getPatente())) {
+            throw new IllegalArgumentException("La patente no cumple con el formato requerido: AA*AA*00");
+        }
+        if (!vehiculo.getAnio().matches("^\\d{4}$")) {
+            throw new IllegalArgumentException("El año debe ser un numero de 4 dígitos.");
+        }
+        try {
+            Double kilometraje = Double.parseDouble(vehiculo.getKilometraje());
+            if (kilometraje < 0) {
+                throw new IllegalArgumentException("El kilometraje debe ser un numero positivo.");
+            }
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException("El kilometraje debe ser un numero valido.");
+        }
+
+        try {
+            Double precio = Double.parseDouble(vehiculo.getPrecio());
+            if (precio < 0) {
+                throw new IllegalArgumentException("El precio debe ser un numero positivo.");
+            }
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException("El precio debe ser un numero valido.");
+        }
         repositorioVehiculo.save(vehiculo);
     }
 
@@ -59,6 +84,11 @@ public class ServicioVehiculo {
     //Buscar por capacidad de pasajeros
     public List<EntidadVehiculo> buscarPorNroPasajeros(Integer nroPasajeros) {
         return repositorioVehiculo.findByNroPasajeros(nroPasajeros);
+    }
+
+    public boolean esPatenteValida(String patente) {
+        String regex = "^[A-Z]{2}\\*[A-Z]{2}\\*[0-9]{2}$";
+        return Pattern.matches(regex, patente);
     }
 
 }

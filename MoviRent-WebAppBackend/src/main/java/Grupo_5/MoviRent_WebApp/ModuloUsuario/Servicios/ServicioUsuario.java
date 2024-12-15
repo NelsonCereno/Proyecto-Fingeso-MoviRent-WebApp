@@ -33,6 +33,11 @@ public class ServicioUsuario {
                 repositorioUsuario.findById(id).orElse(null);
     }
 
+    public List<EntidadUsuario> getAllUsuarios(){
+        return
+                repositorioUsuario.findAll();
+    }
+
     //Update
 
     public EntidadUsuario updateUsuario(EntidadUsuario usuario){
@@ -44,11 +49,6 @@ public class ServicioUsuario {
     public void deleteUsuario(Long id){
 
         repositorioUsuario.deleteById(id);
-    }
-
-    //obtener todos los usuarios
-    public List<EntidadUsuario> getAllUsuarios() {
-        return repositorioUsuario.findAll(); // Recupera todos los usuarios
     }
 
 

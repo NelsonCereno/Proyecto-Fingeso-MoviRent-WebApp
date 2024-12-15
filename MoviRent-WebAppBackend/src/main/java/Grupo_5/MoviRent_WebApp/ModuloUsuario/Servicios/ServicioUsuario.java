@@ -33,9 +33,9 @@ public class ServicioUsuario {
                 repositorioUsuario.findById(id).orElse(null);
     }
 
-    public List<EntidadUsuario> getAllUsuarios(){
-        return
-                repositorioUsuario.findAll();
+    //obtener todos los usuarios
+    public List<EntidadUsuario> getAllUsuarios() {
+        return repositorioUsuario.findAll();
     }
 
     //Update

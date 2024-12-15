@@ -1,3 +1,9 @@
+.botones-container {
+  display: flex;
+  gap: 15px; /* Espacio entre botones */
+  justify-content: center; /* Centra los botones horizontalmente */
+  margin-top: 10px; /* Espacio superior */
+}
 <template>
   <div>
     <h1>Lista de Vehículos</h1>
@@ -24,23 +30,38 @@
 
     <!-- Lista de vehículos -->
     <div class="vehiculos-container">
-      <div class="vehiculo" v-for="vehiculo in vehiculos" :key="vehiculo.idVehiculo">
-        <p><strong>Patente:</strong> {{ vehiculo.patente || "Sin patente" }}</p>
-        <p><strong>Modelo:</strong> {{ vehiculo.modelo || "Sin modelo" }}</p>
-        <p><strong>Marca:</strong> {{ vehiculo.marca || "Sin marca" }}</p>
-        <p><strong>Capacidad:</strong> 
-          {{ vehiculo.nroPasajeros > 0 ? vehiculo.nroPasajeros + " pasajeros" : "Sin capacidad" }}
-        </p>
-        <p><strong>Disponibilidad:</strong> 
-          {{ vehiculo.disponibilidad ? "Disponible" : "No disponible" }}
-        </p>
-        <div v-if="vehiculo.imagen">
-          <img :src="vehiculo.imagen" alt="Imagen del vehículo" />
-        </div>
-        <span v-else>Sin imagen</span>
-        <button @click="irACrearArriendo(vehiculo.idVehiculo)">Arrendar</button>
-      </div>
+  <div class="vehiculo" v-for="vehiculo in vehiculos" :key="vehiculo.idVehiculo">
+    <p><strong>Patente:</strong> {{ vehiculo.patente || "Sin patente" }}</p>
+    <p><strong>Modelo:</strong> {{ vehiculo.modelo || "Sin modelo" }}</p>
+    <p><strong>Marca:</strong> {{ vehiculo.marca || "Sin marca" }}</p>
+    <p><strong>Capacidad:</strong> 
+      {{ vehiculo.nroPasajeros > 0 ? vehiculo.nroPasajeros + " pasajeros" : "Sin capacidad" }}
+    </p>
+    <p><strong>Disponibilidad:</strong> 
+      {{ vehiculo.disponibilidad ? "Disponible" : "No disponible" }}
+    </p>
+    <div v-if="vehiculo.imagen">
+      <img :src="vehiculo.imagen" alt="Imagen del vehículo" />
     </div>
+    <span v-else>Sin imagen</span>
+
+    <!-- Botones -->
+    <div class="botones-container">
+      <button class="btn-arrendar" @click="irACrearArriendo(vehiculo.idVehiculo)">Arrendar</button>
+      <button class="btn-editar" @click="irAEditarVehiculo(vehiculo.idVehiculo)">Editar Vehículo</button>
+      <button class="eliminar" @click="cambiarDisponibilidad(vehiculo.idVehiculo)">Eliminar</button>
+
+    </div>
+    <!-- Modal de confirmación -->
+<div v-if="modalVisible" class="modal">
+  <div class="modal-content">
+    <p>¿Estás seguro de que deseas eliminar este vehículo?</p>
+    <button @click="eliminarVehiculoSeleccionado">Sí</button>
+    <button @click="cancelarEliminacion">No</button>
+  </div>
+</div>
+  </div>
+</div>
 
     <p v-if="vehiculos.length === 0" class="mensaje">No se encontraron vehículos.</p>
 
@@ -84,6 +105,63 @@ export default {
         this.error = 'Error al cargar vehículos.';
         console.error('Error en obtenerTodosLosVehiculos:', error);
       }
+    },
+    confirmarEliminar(vehiculo) {
+      this.vehiculoSeleccionado = vehiculo;
+      this.modalVisible = true; // Muestra el modal
+    },
+
+    cancelarEliminacion() {
+      this.modalVisible = false; // Oculta el modal
+      this.vehiculoSeleccionado = null;
+    },
+    async cambiarDisponibilidad(idVehiculo) {
+  const confirmar = window.confirm("¿Estás seguro de que deseas marcar este vehículo como no disponible?");
+  if (!confirmar) {
+    return; // Si el usuario cancela, no hacemos nada
+  }
+
+  try {
+    // Llamar al endpoint con el ID del vehículo
+    const url = `http://localhost:8080/vehiculo/actualizar/${idVehiculo}`;
+    await axios.put(url, { disponibilidad: false });
+
+    alert("Vehículo marcado como no disponible correctamente.");
+    this.obtenerTodosLosVehiculos(); // Refrescar la lista de vehículos
+  } catch (error) {
+    console.error("Error al cambiar la disponibilidad del vehículo:", error);
+    alert("Hubo un problema al marcar el vehículo como no disponible.");
+  }
+},
+    async eliminarVehiculoSeleccionado() {
+      if (!this.vehiculoSeleccionado) return;
+
+      try {
+        // Verifica si ya está no disponible
+        if (!this.vehiculoSeleccionado.disponibilidad) {
+          alert('El vehículo ya se encuentra como no disponible.');
+          this.modalVisible = false;
+          return;
+        }
+
+        // Cambia la disponibilidad del vehículo
+        const respuesta = await axios.put(`http://localhost:8080/vehiculo/actualizar/${this.vehiculoSeleccionado.idVehiculo}`, {
+          ...this.vehiculoSeleccionado,
+          disponibilidad: false,
+        });
+
+        alert('Vehículo eliminado correctamente.');
+        this.modalVisible = false;
+
+        // Actualiza la lista de vehículos
+        this.obtenerTodosLosVehiculos();
+      } catch (error) {
+        console.error('Error al eliminar el vehículo:', error);
+        alert('Ocurrió un error al eliminar el vehículo.');
+      }
+    },
+    irACrearArriendo(idVehiculo) {
+      this.$router.push({ name: 'arriendos', query: { idVehiculo } });
     },
 
     // Filtra vehículos por disponibilidad
@@ -210,5 +288,51 @@ h1 {
   max-width: 300px; /* Ajusta según tus necesidades */
   display: block;
   margin-top: 10px;
+}
+.botones-container {
+  display: flex;
+  gap: 15px; /* Espacio entre botones */
+  justify-content: center; /* Centra los botones horizontalmente */
+  margin-top: 10px; /* Espacio superior */
+}
+button.eliminar {
+  border: 1px solid red; /* Borde rojo */
+  color: red; /* Texto rojo */
+  padding: 5px 10px; /* Espaciado */
+  cursor: pointer;
+}
+
+button.eliminar:hover {
+  background-color: red; /* Fondo rojo al pasar el mouse */
+  color: white; /* Texto blanco al pasar el mouse */
+}
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  text-align: center;
+}
+
+.modal-content p {
+  margin-bottom: 20px;
+}
+
+.modal-content button {
+  margin: 0 10px;
+  padding: 10px 20px;
+  cursor: pointer;
 }
 </style>

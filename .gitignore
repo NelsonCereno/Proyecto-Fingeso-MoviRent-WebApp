@@ -23,4 +23,5 @@
 hs_err_pid*
 replay_pid*
 
-MoviRent-WebAppBackend/src/main/resources/application.properties
+/MoviRent-WebAppBackend/src/main/resources/application.properties
+

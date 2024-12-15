@@ -4,12 +4,13 @@ package Grupo_5.MoviRent_WebApp.ModuloVehiculo.Controladores;
 import Grupo_5.MoviRent_WebApp.ModuloVehiculo.Entidades.EntidadVehiculo;
 import Grupo_5.MoviRent_WebApp.ModuloVehiculo.Servicios.ServicioVehiculo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 import java.util.logging.Logger;
+
 @RestController
 @RequestMapping("/vehiculo")
 public class ControladorVehiculo {
@@ -85,6 +86,21 @@ public class ControladorVehiculo {
         List<EntidadVehiculo> vehiculos = servicioVehiculo.buscarPorNroPasajeros(pasajeros);
         return ResponseEntity.ok(vehiculos);
     }
+    @PutMapping("/actualizar/{id}")
+    public ResponseEntity<String> actualizarVehiculo(@PathVariable Long id, @RequestBody EntidadVehiculo vehiculoActualizado) {
+        System.out.println("ID recibido: " + id); // Log para depurar el ID recibido
+        EntidadVehiculo vehiculoExistente = servicioVehiculo.buscarVehiculoPorId(id);
+        if (vehiculoExistente == null) {
+            System.out.println("Vehículo no encontrado con ID: " + id);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Vehículo no encontrado.");
+        }
+
+        vehiculoExistente.setDisponibilidad(vehiculoActualizado.getDisponibilidad());
+        servicioVehiculo.agregarVehiculo(vehiculoExistente);
+
+        return ResponseEntity.ok("Vehículo actualizado correctamente.");
+    }
+
 
 
 }

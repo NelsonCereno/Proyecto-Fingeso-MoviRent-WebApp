@@ -3,12 +3,12 @@
     <h2>Crear Reporte</h2>
     <form @submit.prevent="crearReporte">
       <div>
-        <label for="fechaReporte">Fecha del Reporte:</label>
-        <input type="date" id="fechaReporte" v-model="nuevoReporte.fechaReporte" required />
-      </div>
-      <div>
         <label for="tipoReporte">Tipo de Reporte:</label>
-        <input type="text" id="tipoReporte" v-model="nuevoReporte.tipoReporte" required />
+        <select id="tipoReporte" v-model="nuevoReporte.tipoReporte" required>
+          <option value="Reporte falla">Reporte falla</option>
+          <option value="Reporte recepcion">Reporte recepción</option>
+          <option value="Reporte cambio de sucursal">Reporte cambio de sucursal</option>
+        </select>
       </div>
       <div>
         <label for="contenido">Contenido:</label>
@@ -30,7 +30,7 @@ export default {
   data() {
     return {
       nuevoReporte: {
-        fechaReporte: "",
+        fechaReporte: new Date().toISOString().split('T')[0], // Fecha actual
         tipoReporte: "",
         contenido: "",
         usuarioId: null,
@@ -51,7 +51,7 @@ export default {
     },
     limpiarFormulario() {
       this.nuevoReporte = {
-        fechaReporte: "",
+        fechaReporte: new Date().toISOString().split('T')[0], // Fecha actual
         tipoReporte: "",
         contenido: "",
         usuarioId: null,
@@ -67,10 +67,9 @@ export default {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  position: absolute; /* Cambia la posición del contenedor */
-  top: 30%; /* Ajusta la posición desde la parte superior */
-  left: 3%; /* Ajusta la posición desde la izquierda */
-  
+  position: absolute;
+  top: 30%;
+  left: 3%;
 }
 
 form {

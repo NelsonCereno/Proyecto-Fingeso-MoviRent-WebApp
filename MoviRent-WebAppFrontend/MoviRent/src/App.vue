@@ -21,7 +21,9 @@ import { RouterLink, RouterView } from 'vue-router';
        <RouterLink to="/SobreNosotros">SobreNosotros</RouterLink>
        <RouterLink to="/crear-reporte">Crear Reporte</RouterLink>
        <RouterLink to="/crear-usuario">Crear Usuario</RouterLink>
+       <RouterLink to="/crear-vehiculo">Crear Vehículo</RouterLink>
        <RouterLink to="/vehiculos">Ver Vehículos</RouterLink> 
+       <RouterLink to="/ver-reportes">Ver Reportes</RouterLink>
      </nav>
      
    </div>

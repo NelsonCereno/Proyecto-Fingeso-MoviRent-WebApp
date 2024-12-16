@@ -109,6 +109,41 @@ public class ControladorVehiculo {
 
         return ResponseEntity.ok("Vehículo actualizado correctamente.");
     }
+    @PutMapping("/actualizarvehiculo/{id}")
+    public ResponseEntity<String> actualizarVehiculoTotal(@PathVariable Long id, @RequestBody EntidadVehiculo vehiculoActualizado) {
+        try {
+            EntidadVehiculo vehiculoExistente = servicioVehiculo.buscarVehiculoPorId(id);
+            if (vehiculoExistente == null) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Vehículo no encontrado.");
+            }
+
+            // Actualiza todos los campos necesarios
+            vehiculoExistente.setPatente(vehiculoActualizado.getPatente());
+            vehiculoExistente.setCodigoAcriss(vehiculoActualizado.getCodigoAcriss());
+            vehiculoExistente.setMarca(vehiculoActualizado.getMarca());
+            vehiculoExistente.setModelo(vehiculoActualizado.getModelo());
+            vehiculoExistente.setAnio(vehiculoActualizado.getAnio());
+            vehiculoExistente.setColor(vehiculoActualizado.getColor());
+            vehiculoExistente.setNroPasajeros(vehiculoActualizado.getNroPasajeros());
+            vehiculoExistente.setCapacidadMaletero(vehiculoActualizado.getCapacidadMaletero());
+            vehiculoExistente.setPrecio(vehiculoActualizado.getPrecio());
+            vehiculoExistente.setFechaRevision(vehiculoActualizado.getFechaRevision());
+            vehiculoExistente.setKilometraje(vehiculoActualizado.getKilometraje());
+            vehiculoExistente.setTipo(vehiculoActualizado.getTipo());
+            vehiculoExistente.setEstado(vehiculoActualizado.getEstado());
+            vehiculoExistente.setDescripcion(vehiculoActualizado.getDescripcion());
+            vehiculoExistente.setDisponibilidad(vehiculoActualizado.getDisponibilidad());
+            vehiculoExistente.setImagen(vehiculoActualizado.getImagen());
+
+            servicioVehiculo.agregarVehiculo(vehiculoExistente);
+
+            return ResponseEntity.ok("Vehículo actualizado correctamente.");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al actualizar el vehículo.");
+        }
+    }
+
 
 
 

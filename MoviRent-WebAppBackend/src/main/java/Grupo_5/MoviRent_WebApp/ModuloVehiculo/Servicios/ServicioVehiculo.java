@@ -20,9 +20,6 @@ public class ServicioVehiculo {
     }
     //Agregar un vehículo
     public void agregarVehiculo(EntidadVehiculo vehiculo) {
-        if (!esPatenteValida(vehiculo.getPatente())) {
-            throw new IllegalArgumentException("La patente no cumple con el formato requerido: AA*AA*00");
-        }
         if (!vehiculo.getAnio().matches("^\\d{4}$")) {
             throw new IllegalArgumentException("El año debe ser un numero de 4 dígitos.");
         }

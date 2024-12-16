@@ -5,7 +5,8 @@ import CrearUsuario from '@/components/CrearUsuario.vue';
 import VerVehiculos from '@/components/VerVehiculos.vue'; // Asegúrate de usar el nombre y ruta correctos
 import CrearArriendo from '@/components/CrearArriendo.vue';
 import VerReportes from '@/components/VerReporte.vue';
-import CrearVehiculo from '@/components/CrearVehiculo.vue'
+import CrearVehiculo from '@/components/CrearVehiculo.vue';
+import EditarVehiculo from '@/components/EditarVehiculo.vue';
 
 
 const router = createRouter({
@@ -49,6 +50,12 @@ const router = createRouter({
       name: 'arriendos',
       component: CrearArriendo,
     },
+    {
+      path: '/editar-vehiculo/:idVehiculo',
+      name: 'editarVehiculo',
+      component: EditarVehiculo,
+    }
+    
     
   ],
 });

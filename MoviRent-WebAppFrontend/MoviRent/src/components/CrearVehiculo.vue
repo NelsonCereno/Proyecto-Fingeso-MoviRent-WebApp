@@ -118,18 +118,20 @@ export default {
   },
   methods: {
     async crearVehiculo() {
-      try {
-        console.log("Datos enviados:", this.nuevoVehiculo);
-        const response = await axios.post(
-          "http://localhost:8080/vehiculo/crear",
-          this.nuevoVehiculo
-        );
-        alert("Vehículo creado con éxito: " + response.data);
-        this.limpiarFormulario();
-      } catch (error) {
-        console.error("Error al crear el vehículo:", error);
-        alert("Error al crear el vehículo");
-      }
+  try {
+    console.log("Datos enviados:", this.nuevoVehiculo);
+    const response = await axios.post("http://localhost:8080/vehiculo/crear", this.nuevoVehiculo);
+    alert("Vehículo creado con éxito.");
+    this.limpiarFormulario();
+  } catch (error) {
+    if (error.response && error.response.status === 400) {
+      // Captura el mensaje del servidor y lo muestra al usuario
+      alert("Error al crear el vehículo: " + error.response.data);
+    } else {
+      console.error("Error desconocido al crear el vehículo:", error);
+      alert("Error al crear el vehículo. Inténtelo nuevamente.");
+    }
+  }
     },
     limpiarFormulario() {
       this.nuevoVehiculo = {

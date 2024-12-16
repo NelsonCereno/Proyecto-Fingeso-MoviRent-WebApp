@@ -20,7 +20,7 @@
       </div>
       <div>
         <label for="idVehiculo">ID Vehículo:</label>
-        <input type="number" id="idVehiculo" v-model="nuevoArriendo.idVehiculo" readonly />
+        <input type="number" id="idVehiculo" v-model="nuevoArriendo.idVehiculo" required />
       </div>
       <div>
         <label for="montoPagar">Monto a Pagar:</label>
@@ -33,7 +33,7 @@
 
 <script>
 import axios from "axios";
-import { ref, reactive, onMounted } from "vue";
+import { ref, reactive } from "vue";
 import { useRoute } from "vue-router";
 
 export default {
@@ -50,26 +50,7 @@ export default {
     });
     const costoDiario = ref(0);
 
-    onMounted(async () => {
-  const idVehiculo = route.params.idVehiculo; // Ahora usa params en lugar de query
-  if (idVehiculo) {
-    try {
-      const response = await axios.get(`http://localhost:8080/vehiculo/${idVehiculo}`);
-      console.log("Datos del vehículo cargados:", response.data);
-
-      // Llena los datos del arriendo con los datos del vehículo
-      nuevoArriendo.idVehiculo = response.data.idVehiculo;
-      costoDiario.value = parseFloat(response.data.precio) || 0; // Precio diario
-      nuevoArriendo.montoPagar = costoDiario.value; // Inicializa el monto
-    } catch (error) {
-      console.error("Error al cargar el vehículo:", error);
-      alert("No se pudo cargar la información del vehículo seleccionado.");
-    }
-  } else {
-    alert("ID del vehículo no encontrado. Por favor, vuelve a intentarlo.");
-  }
-});
-
+    // Lógica para calcular el monto del arriendo
     const calcularMonto = () => {
       if (!nuevoArriendo.fechaInicio || !nuevoArriendo.fechaTermino) {
         return;
@@ -96,14 +77,35 @@ export default {
     };
 
     const crearArriendo = async () => {
+      // Verificar que el ID del vehículo esté presente
+      if (!nuevoArriendo.idVehiculo) {
+        alert("Por favor, ingresa un ID de vehículo válido.");
+        return;
+      }
+
       try {
-        console.log("Datos enviados:", nuevoArriendo);
-        const response = await axios.post("http://localhost:8080/arriendo/crear", nuevoArriendo);
-        alert("Arriendo creado con éxito: " + response.data);
+        // Buscar el vehículo en el backend con el ID
+        const response = await axios.get(`http://localhost:8080/vehiculo/${nuevoArriendo.idVehiculo}`);
+        console.log("Datos del vehículo cargados:", response.data);
+
+        // Si el vehículo existe, cargar el costo diario
+        costoDiario.value = parseFloat(response.data.precio) || 0;
+        nuevoArriendo.montoPagar = costoDiario.value; // Inicializar el monto con el costo diario
+
+        // Realizar la creación del arriendo
+        const arriendoResponse = await axios.post("http://localhost:8080/arriendo/crear", nuevoArriendo);
+        alert("Arriendo creado con éxito: " + arriendoResponse.data);
         limpiarFormulario();
       } catch (error) {
         console.error("Error al crear el arriendo:", error);
-        alert("Error al crear el arriendo.");
+        
+        if (error.response && error.response.status === 404) {
+          // Verificamos si el error es por un ID de vehículo no encontrado (404)
+          alert("Error al crear el arriendo. ID del vehículo inválido, por favor, intentalo nuevamente.");
+        } else {
+          // Si es otro tipo de error, mostramos un mensaje genérico
+          alert("Error al crear el arriendo, por favor, intentalo nuevamente.");
+        }
       }
     };
 
@@ -165,3 +167,4 @@ button:hover {
   background: #0056b3;
 }
 </style>
+

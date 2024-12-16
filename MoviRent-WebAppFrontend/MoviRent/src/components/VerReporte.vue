@@ -9,7 +9,8 @@
             <th>Fecha</th>
             <th>Tipo</th>
             <th>Contenido</th>
-            <th>ID de Usuario</th>
+            <th>ID de Vehículo</th>
+            <th>Acciones</th>
           </tr>
         </thead>
         <tbody>
@@ -18,7 +19,15 @@
             <td>{{ reporte.fechaReporte }}</td>
             <td>{{ reporte.tipoReporte }}</td>
             <td>{{ reporte.contenido }}</td>
-            <td>{{ reporte.usuarioId }}</td>
+            <td>{{ reporte.vehiculoId }}</td>
+            <td v-if="reporte.tipoReporte === 'Reporte falla'">
+              <button @click="marcarComoCorregido(reporte.vehiculoId)">
+                Marcar como Corregido
+              </button>
+            </td>
+            <td v-else>
+              N/A
+            </td>
           </tr>
         </tbody>
       </table>
@@ -27,7 +36,7 @@
 </template>
 
 <script>
-import axios from "axios";
+import axios from 'axios';
 
 export default {
   data() {
@@ -45,6 +54,21 @@ export default {
         this.reportes = response.data;
       } catch (error) {
         console.error("Error al obtener los reportes:", error);
+      }
+    },
+    async marcarComoCorregido(vehiculoId) {
+      try {
+        const vehiculoResponse = await axios.get(`http://localhost:8080/vehiculo/${vehiculoId}`);
+        if (vehiculoResponse.data.disponibilidad) {
+          alert("El vehículo ya se encuentra disponible.");
+        } else {
+          await axios.put(`http://localhost:8080/vehiculo/actualizar/${vehiculoId}`, { disponibilidad: true });
+          alert("Vehículo marcado como disponible correctamente.");
+          this.obtenerReportes(); // Vuelve a cargar los reportes
+        }
+      } catch (error) {
+        console.error("Error al marcar el vehículo como disponible:", error);
+        alert("Hubo un problema al actualizar la disponibilidad del vehículo.");
       }
     },
   },
@@ -90,5 +114,19 @@ tbody tr:nth-child(even) {
 
 tbody tr:hover {
   background-color: #f1f1f1;
+}
+
+button {
+  padding: 5px 10px;
+  font-size: 14px;
+  color: white;
+  background-color: #007bff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #0056b3;
 }
 </style>

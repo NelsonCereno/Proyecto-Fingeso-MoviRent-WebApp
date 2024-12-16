@@ -11,12 +11,12 @@
         </select>
       </div>
       <div class="form-group">
-        <label for="contenido">Contenido:</label>
-        <textarea id="contenido" v-model="nuevoReporte.contenido" rows="4" required></textarea>
+        <label for="vehiculoId">ID del Vehículo:</label>
+        <input type="number" id="vehiculoId" v-model="nuevoReporte.vehiculoId" required />
       </div>
       <div class="form-group">
-        <label for="usuarioId">ID del Usuario:</label>
-        <input type="number" id="usuarioId" v-model="nuevoReporte.usuarioId" required />
+        <label for="contenido">Contenido:</label>
+        <textarea id="contenido" v-model="nuevoReporte.contenido" rows="4" required></textarea>
       </div>
       <button type="submit">Crear Reporte</button>
     </form>
@@ -33,7 +33,7 @@ export default {
         fechaReporte: new Date().toISOString().split('T')[0], // Fecha actual
         tipoReporte: "",
         contenido: "",
-        usuarioId: null,
+        vehiculoId: null,
       },
     };
   },
@@ -41,8 +41,11 @@ export default {
     async crearReporte() {
       try {
         console.log("Datos enviados:", this.nuevoReporte);
+        if (this.nuevoReporte.tipoReporte === 'Reporte falla' && this.nuevoReporte.vehiculoId) {
+          await axios.put(`http://localhost:8080/vehiculo/actualizar/${this.nuevoReporte.vehiculoId}`, { disponibilidad: false });
+        }
         const response = await axios.post("http://localhost:8080/reportes/crear", this.nuevoReporte);
-        alert("Reporte creado con éxito: " + response.data);
+        alert(response.data); // Mostrar el mensaje de éxito con el ID del reporte
         this.limpiarFormulario();
       } catch (error) {
         console.error("Error al crear el reporte:", error);
@@ -54,7 +57,7 @@ export default {
         fechaReporte: new Date().toISOString().split('T')[0], // Fecha actual
         tipoReporte: "",
         contenido: "",
-        usuarioId: null,
+        vehiculoId: null,
       };
     },
   },

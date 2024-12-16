@@ -73,6 +73,7 @@ header {
   background-color: #07875c;
   bottom: 0%;
   left: 0%;
+  
 }
 
 nav {

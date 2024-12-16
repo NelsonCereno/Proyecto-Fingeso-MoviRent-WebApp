@@ -1,5 +1,6 @@
 <template>
   <div>
+    <div class = "form-container">
     <h1>Lista de Vehículos</h1>
 
     <!-- Filtros -->
@@ -22,7 +23,7 @@
       </select>
     </div>
 
-    <!-- Lista de vehículos -->
+    <!-- Lista de vehículos -->    
     <div class="vehiculos-container">
       <div class="vehiculo" v-for="vehiculo in vehiculos" :key="vehiculo.idVehiculo">
         <p><strong>ID del vehiculo:</strong> {{ vehiculo.idVehiculo || "Sin Id" }}</p>
@@ -48,6 +49,7 @@
         </div>
       </div>
     </div>
+  </div>
 
     <p v-if="vehiculos.length === 0" class="mensaje">No se encontraron vehículos.</p>
 
@@ -158,6 +160,16 @@ h1 {
   flex-wrap: wrap;
   gap: 10px;
   justify-content: center;
+}
+
+.form-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  background: #f9f9f9;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  text-align: left;
 }
 
 .vehiculo {

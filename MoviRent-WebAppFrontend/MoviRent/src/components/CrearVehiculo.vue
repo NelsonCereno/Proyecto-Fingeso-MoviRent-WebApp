@@ -45,7 +45,7 @@
       <div class="form-row">
         <div class="form-field">
           <label for="precio">Precio:</label>
-          <input type="text" id="precio" v-model="nuevoVehiculo.precio" required />
+          <input type="number" id="precio" v-model="nuevoVehiculo.precio" required />
         </div>
         <div class="form-field">
           <label for="disponibilidad">Disponibilidad:</label>
@@ -62,7 +62,7 @@
         </div>
         <div class="form-field">
           <label for="kilometraje">Kilometraje:</label>
-          <input type="text" id="kilometraje" v-model="nuevoVehiculo.kilometraje" required />
+          <input type="number" id="kilometraje" v-model="nuevoVehiculo.kilometraje" required />
         </div>
       </div>
       <div class="form-row">
@@ -177,12 +177,17 @@ form {
 .form-row {
   display: flex;
   gap: 15px;
+  justify-content: space-between;
 }
 
 .form-field {
   flex: 1;
   display: flex;
-  flex-direction: column;
+  margin-right: 10px;
+}
+
+.form-field:last-child {
+  margin-right: 0;
 }
 
 label {

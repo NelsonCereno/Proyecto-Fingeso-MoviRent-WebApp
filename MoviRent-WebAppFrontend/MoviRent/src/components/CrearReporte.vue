@@ -2,7 +2,7 @@
   <div class="form-container">
     <h2>Crear Reporte</h2>
     <form @submit.prevent="crearReporte">
-      <div>
+      <div class="form-group">
         <label for="tipoReporte">Tipo de Reporte:</label>
         <select id="tipoReporte" v-model="nuevoReporte.tipoReporte" required>
           <option value="Reporte falla">Reporte falla</option>
@@ -10,11 +10,11 @@
           <option value="Reporte cambio de sucursal">Reporte cambio de sucursal</option>
         </select>
       </div>
-      <div>
+      <div class="form-group">
         <label for="contenido">Contenido:</label>
-        <textarea id="contenido" v-model="nuevoReporte.contenido" required></textarea>
+        <textarea id="contenido" v-model="nuevoReporte.contenido" rows="4" required></textarea>
       </div>
-      <div>
+      <div class="form-group">
         <label for="usuarioId">ID del Usuario:</label>
         <input type="number" id="usuarioId" v-model="nuevoReporte.usuarioId" required />
       </div>
@@ -63,23 +63,56 @@ export default {
 
 <style scoped>
 .form-container {
-  display: absolute;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  position: absolute;
-  top: 30%;
-  left: 3%;
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 20px;
+  background: #f9f9f9;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+h2 {
+  text-align: center;
+  margin-bottom: 20px;
 }
 
 form {
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  width: 300px;
+  gap: 15px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+label {
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+select,
+textarea,
+input {
+  width: 100%;
+  padding: 8px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
 }
 
 button {
-  margin-top: 15px;
+  padding: 10px;
+  font-size: 16px;
+  color: white;
+  background-color: #007bff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #0056b3;
 }
 </style>

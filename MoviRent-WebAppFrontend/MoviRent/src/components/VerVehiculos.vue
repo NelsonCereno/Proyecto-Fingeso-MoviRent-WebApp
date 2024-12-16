@@ -161,8 +161,10 @@ export default {
       }
     },
     irACrearArriendo(idVehiculo) {
-      this.$router.push({ name: 'arriendos', query: { idVehiculo } });
-    },
+  console.log("ID Vehículo seleccionado:", idVehiculo);
+  window.location.href = `/arriendos/${idVehiculo}`;
+}
+,
 
     // Filtra vehículos por disponibilidad
     async filtrarPorDisponibilidad() {
@@ -226,7 +228,7 @@ export default {
     
     // Método para redirigir a la página de creación de arriendo
     irACrearArriendo(idVehiculo) {
-      this.$router.push({ name: 'arriendos', query: { idVehiculo } });
+      this.$router.push({ name: 'CrearArriendo', query: { idVehiculo } });
     },
   },
 };

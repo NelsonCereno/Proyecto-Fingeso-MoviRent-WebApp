@@ -2,19 +2,19 @@
   <div class="form-container">
     <h2>Crear Usuario</h2>
     <form @submit.prevent="crearUsuario">
-      <div>
+      <div class="form-group">
         <label for="nombre">Nombre:</label>
         <input type="text" id="nombre" v-model="nuevoUsuario.nombre" required />
       </div>
-      <div>
+      <div class="form-group">
         <label for="apellido">Apellido:</label>
         <input type="text" id="apellido" v-model="nuevoUsuario.apellido" required />
       </div>
-      <div>
+      <div class="form-group">
         <label for="correo">Correo:</label>
         <input type="email" id="correo" v-model="nuevoUsuario.correo" required />
       </div>
-      <div>
+      <div class="form-group">
         <label for="contrasena">Contraseña:</label>
         <input type="password" id="contrasena" v-model="nuevoUsuario.contrasena" required />
       </div>
@@ -63,23 +63,55 @@ export default {
 
 <style scoped>
 .form-container {
-  display: absolute;
+  display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  position: absolute; /* Cambia la posición del contenedor */
-  top: 30%; /* Ajusta la posición desde la parte superior */
-  left: 3%; /* Ajusta la posición desde la izquierda */
+  margin: 0 auto;
+  padding: 20px;
+  max-width: 400px;
+  background-color: #f9f9f9;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+h2 {
+  margin-bottom: 20px;
 }
 
 form {
+  width: 100%;
+}
+
+.form-group {
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  width: 300px;
+  margin-bottom: 15px;
+}
+
+label {
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+input {
+  padding: 8px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
 }
 
 button {
-  margin-top: 15px;
+  padding: 10px;
+  font-size: 16px;
+  color: white;
+  background-color: #007bff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  width: 100%;
+}
+
+button:hover {
+  background-color: #0056b3;
 }
 </style>

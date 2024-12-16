@@ -45,10 +45,11 @@ const router = createRouter({
       component: VerVehiculos, 
     },
     {
-      path: '/arriendos',
+      path: '/arriendos/',
       name: 'arriendos',
       component: CrearArriendo,
     },
+    
   ],
 });
 

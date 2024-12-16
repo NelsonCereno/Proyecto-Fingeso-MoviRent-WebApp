@@ -25,6 +25,7 @@
     <!-- Lista de vehículos -->
     <div class="vehiculos-container">
       <div class="vehiculo" v-for="vehiculo in vehiculos" :key="vehiculo.idVehiculo">
+        <p><strong>ID del vehiculo:</strong> {{ vehiculo.idVehiculo || "Sin Id" }}</p>
         <p><strong>Patente:</strong> {{ vehiculo.patente || "Sin patente" }}</p>
         <p><strong>Modelo:</strong> {{ vehiculo.modelo || "Sin modelo" }}</p>
         <p><strong>Marca:</strong> {{ vehiculo.marca || "Sin marca" }}</p>

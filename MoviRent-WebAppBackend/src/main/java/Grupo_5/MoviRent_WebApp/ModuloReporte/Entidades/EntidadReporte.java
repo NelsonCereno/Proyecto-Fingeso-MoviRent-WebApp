@@ -1,29 +1,26 @@
 package Grupo_5.MoviRent_WebApp.ModuloReporte.Entidades;
 
+import java.util.Date;
 import jakarta.persistence.*;
 import lombok.*;
 import java.time.LocalDate;
 
 @Entity
-@Table(name = "reporte")
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
+@Table(name = "reportes")
 public class EntidadReporte {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idReporte;
 
-    private LocalDate fechaReporte;
+    @Temporal(TemporalType.DATE)
+    private Date fechaReporte;
 
     private String tipoReporte;
-
-    @Column(length = 250)
     private String contenido;
+    private Long IdUsuario;
+    private Long vehiculoId; // Nuevo campo para ID del Vehículo
 
-    @Column(name = "id_usuario", nullable = false)
-    private Long usuarioId;
+    // Getters y Setters
 
     public Long getIdReporte() {
         return idReporte;
@@ -33,11 +30,11 @@ public class EntidadReporte {
         this.idReporte = idReporte;
     }
 
-    public LocalDate getFechaReporte() {
+    public Date getFechaReporte() {
         return fechaReporte;
     }
 
-    public void setFechaReporte(LocalDate fechaReporte) {
+    public void setFechaReporte(Date fechaReporte) {
         this.fechaReporte = fechaReporte;
     }
 
@@ -58,10 +55,18 @@ public class EntidadReporte {
     }
 
     public Long getUsuarioId() {
-        return usuarioId;
+        return IdUsuario;
     }
 
     public void setUsuarioId(Long usuarioId) {
-        this.usuarioId = usuarioId;
+        this.IdUsuario = usuarioId;
+    }
+
+    public Long getVehiculoId() {
+        return vehiculoId;
+    }
+
+    public void setVehiculoId(Long vehiculoId) {
+        this.vehiculoId = vehiculoId;
     }
 }

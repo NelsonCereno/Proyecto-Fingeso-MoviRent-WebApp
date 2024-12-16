@@ -8,6 +8,8 @@ import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @RestController
 @RequestMapping("/usuario")
@@ -33,6 +35,15 @@ public class ControladorUsuario {
         if (servicioUsuario.existeCorreo(usuario.getCorreo())) {
             // Si el correo ya está registrado, devolver un mensaje indicando que el correo está duplicado
             return ResponseEntity.ok("El correo ya está registrado. Intente con otro correo.");
+        }
+        // Validación de los atributos
+        String fechaNacimientoRegex = "^(0[1-9]|[12][0-9]|3[01])/(0[1-9]|1[0-2])/\\d{4}$";
+        if (!usuario.getFechaNacimiento().matches(fechaNacimientoRegex)) {
+            return ResponseEntity.badRequest().body("Fecha de nacimiento no válida. El formato correcto es DD/MM/YYYY.");
+        }
+        String celularRegex = "^\\+569\\d{8}$";
+        if (!usuario.getCelular().matches(celularRegex)) {
+            return ResponseEntity.badRequest().body("Número de celular no válido. El formato correcto es +569XXXXXXXX.");
         }
 
         // Si el correo no existe, se crea el usuario

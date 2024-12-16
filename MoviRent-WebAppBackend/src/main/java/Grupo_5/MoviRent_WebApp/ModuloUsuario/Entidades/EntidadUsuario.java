@@ -24,6 +24,10 @@ public class EntidadUsuario {
 
     private String apellido;
 
+    private String fechaNacimiento;
+
+    private String celular;
+
     @Column(unique = true, nullable = false)
     private String correo;
 
@@ -53,6 +57,22 @@ public class EntidadUsuario {
     public void setApellido(String apellido) {
 
         this.apellido = apellido;
+    }
+
+    public String getFechaNacimiento() {
+        return fechaNacimiento;
+    }
+
+    public void setFechaNacimiento(String fechaNacimiento) {
+        this.fechaNacimiento = fechaNacimiento;
+    }
+
+    public String getCelular() {
+        return celular;
+    }
+
+    public void setCelular(String celular) {
+        this.celular = celular;
     }
 
     public String getCorreo() {

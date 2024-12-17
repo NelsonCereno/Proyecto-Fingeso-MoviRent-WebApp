@@ -37,21 +37,22 @@
   max-width: 800px;
   margin: 0 auto;
   padding: 20px;
-  background: #345039;
+  background: #000000;
   border: 1px solid #f6f8f7;
   border-radius: 5px;
-  color: #f6f8f7;
+  color: #000000;
   text-align: left;
   overflow-y: auto;
   flex-wrap: wrap;
-  
+  background-color: #f6f8f7;
+
   /*ajustar para el vice*/
   max-height: 700px;
 }
 
 h1, h2 {
   text-align: left;
-  color: #181818;
+  color: #000000;
   margin-bottom: 20px;
   font-size: 2em;
   font-weight: bold;

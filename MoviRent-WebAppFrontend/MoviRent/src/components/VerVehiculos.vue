@@ -43,7 +43,7 @@
 
         <!-- Botones -->
         <div class="botones-container">
-          <button class="btn-arrendar" @click="irACrearArriendo(vehiculo.idVehiculo)">Arrendar</button>
+          <button class="btn-arrendar" @click="irACrearArriendo(vehiculo)">Arrendar</button>
           <button class="btn-editar" @click="irAEditarVehiculo(vehiculo.idVehiculo)">Editar Vehículo</button>
           <button class="eliminar" @click="cambiarDisponibilidad(vehiculo.idVehiculo)">Eliminar</button>
         </div>
@@ -91,8 +91,18 @@ export default {
         console.error("Error en obtenerTodosLosVehiculos:", error);
       }
     },
-    irACrearArriendo(idVehiculo) {
-      this.$router.push({ name: "CrearArriendo", query: { idVehiculo } });
+    irACrearArriendo(vehiculo) {
+      this.$router.push({
+        name: "arriendos",
+        query: {
+          idVehiculo: vehiculo.idVehiculo,
+          patente: vehiculo.patente,
+          modelo: vehiculo.modelo,
+          marca: vehiculo.marca,
+          precio: vehiculo.precio,
+          disponibilidad: vehiculo.disponibilidad,
+        },
+      });
     },
     irAEditarVehiculo(idVehiculo) {
       this.$router.push({ name: "editarVehiculo", params: { idVehiculo } });

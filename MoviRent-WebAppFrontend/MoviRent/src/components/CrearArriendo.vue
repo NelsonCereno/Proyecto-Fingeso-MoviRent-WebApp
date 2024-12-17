@@ -20,7 +20,19 @@
       </div>
       <div>
         <label for="idVehiculo">ID Vehículo:</label>
-        <input type="number" id="idVehiculo" v-model="nuevoArriendo.idVehiculo" required />
+        <input type="number" id="idVehiculo" v-model="nuevoArriendo.idVehiculo" readonly />
+      </div>
+      <div>
+        <label for="patente">Patente:</label>
+        <input type="text" id="patente" v-model="nuevoArriendo.patente" readonly />
+      </div>
+      <div>
+        <label for="modelo">Modelo:</label>
+        <input type="text" id="modelo" v-model="nuevoArriendo.modelo" readonly />
+      </div>
+      <div>
+        <label for="marca">Marca:</label>
+        <input type="text" id="marca" v-model="nuevoArriendo.marca" readonly />
       </div>
       <div>
         <label for="montoPagar">Monto a Pagar:</label>
@@ -45,10 +57,14 @@ export default {
       fechaTermino: "",
       idSucursalLlegada: "",
       idSucursalPartida: "",
-      idVehiculo: "",
+      idVehiculo: route.query.idVehiculo || "",
+      patente: route.query.patente || "",
+      modelo: route.query.modelo || "",
+      marca: route.query.marca || "",
       montoPagar: "",
+      disponibilidad: route.query.disponibilidad || false,
     });
-    const costoDiario = ref(0);
+    const costoDiario = ref(parseFloat(route.query.precio) || 0);
 
     // Lógica para calcular el monto del arriendo
     const calcularMonto = () => {
@@ -77,12 +93,21 @@ export default {
     };
 
     const crearArriendo = async () => {
+
+      //alert(nuevoArriendo.disponibilidad);
+
       // Verificar que el ID del vehículo esté presente
       if (!nuevoArriendo.idVehiculo) {
         alert("Por favor, ingresa un ID de vehículo válido.");
         return;
       }
+      
+      if((nuevoArriendo.disponibilidad).toString() == "false"){
+        alert("El vehículo no está disponible para arrendar.");
+        return;
 
+      }else{
+      
       try {
         // Buscar el vehículo en el backend con el ID
         const response = await axios.get(`http://localhost:8080/vehiculo/${nuevoArriendo.idVehiculo}`);
@@ -95,6 +120,8 @@ export default {
         // Realizar la creación del arriendo
         const arriendoResponse = await axios.post("http://localhost:8080/arriendo/crear", nuevoArriendo);
         alert("Arriendo creado con éxito: " + arriendoResponse.data);
+        nuevoArriendo.disponibilidad = false;
+        //alert(nuevoArriendo.disponibilidad);
         limpiarFormulario();
       } catch (error) {
         console.error("Error al crear el arriendo:", error);
@@ -106,6 +133,7 @@ export default {
           // Si es otro tipo de error, mostramos un mensaje genérico
           alert("Error al crear el arriendo, por favor, intentalo nuevamente.");
         }
+      }
       }
     };
 
@@ -167,4 +195,3 @@ button:hover {
   background: #0056b3;
 }
 </style>
-

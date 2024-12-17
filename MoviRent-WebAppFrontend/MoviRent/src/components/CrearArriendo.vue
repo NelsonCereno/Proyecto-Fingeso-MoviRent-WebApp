@@ -1,7 +1,8 @@
 <template>
   <div class="form-container">
-    <h2>Crear Arriendo</h2>
+
     <form @submit.prevent="crearArriendo">
+      <h2>Crear Arriendo</h2>
       <div>
         <label for="fechaInicio">Fecha de Inicio:</label>
         <input type="date" id="fechaInicio" v-model="nuevoArriendo.fechaInicio" @change="calcularMonto" required />
@@ -162,17 +163,15 @@ export default {
 
 }
 
-h2 {
-  text-align: center;
-}
+
 form {
   max-width: 800px;
   margin: 0 auto;
   padding: 20px;
-  background: #345039;
+  background: #f6f8f7;
   border: 1px solid #f6f8f7;
-  border-radius: 5px;
-  color: #f6f8f7;
+  border-radius: 10px;
+  color: #000000;
   text-align: left;
   overflow-y: auto;
   flex-wrap: wrap;

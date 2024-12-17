@@ -76,6 +76,7 @@ export default {
 </script>
 
 <style scoped>
+
 .form-container {
   max-width: 800px;
   margin: 0 auto;
@@ -84,6 +85,9 @@ export default {
   border: 1px solid #ccc;
   border-radius: 5px;
   text-align: center;
+  overflow-y: auto;
+  flex-wrap: wrap;
+  max-height: 250px;
 }
 
 .table-container {

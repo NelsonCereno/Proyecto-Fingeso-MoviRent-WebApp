@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="form-container">
     <h2>Crear Arriendo</h2>
     <form @submit.prevent="crearArriendo">
       <div>
@@ -158,17 +158,29 @@ export default {
 </script>
 
 <style scoped>
+.form-container{
+
+}
+
 h2 {
   text-align: center;
 }
 form {
-  max-width: 600px;
+  max-width: 800px;
   margin: 0 auto;
   padding: 20px;
-  border: 1px solid #ccc;
+  background: #345039;
+  border: 1px solid #f6f8f7;
   border-radius: 5px;
-  background: #f9f9f9;
+  color: #f6f8f7;
+  text-align: left;
+  overflow-y: auto;
+  flex-wrap: wrap;
+  
+  /*ajustar para el vice*/
+  max-height: 600px;
 }
+
 form div {
   margin-bottom: 15px;
 }

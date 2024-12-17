@@ -22,7 +22,7 @@ import { RouterLink, RouterView } from 'vue-router';
     </div>
 
     <div class="logos">
-      <img alt="Vue logo" class="logo" src="@/assets/Logo.jpg" width="250" height="125" />
+      <img alt="Vue logo" class="logo" src="@/assets/movirent.png" width="250" height="124.4" />
     </div>
   </header>
 

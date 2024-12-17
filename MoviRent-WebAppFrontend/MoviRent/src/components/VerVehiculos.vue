@@ -170,6 +170,11 @@ h1 {
   flex-wrap: wrap;
   gap: 10px;
   justify-content: center;
+  overflow-y: auto;  
+  max-height: 400px; 
+  padding: 10px; 
+  border: 1px solid #ddd; 
+  background-color: #f9f9f9; 
 }
 
 .form-container {

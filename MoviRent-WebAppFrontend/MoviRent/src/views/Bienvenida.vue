@@ -15,24 +15,9 @@
 
 <style>
 .Bienvenida {
-
-    left : 0%;
-
-}
-
-.Bienvenida h1 {
-    font-size: 3em;
-    position: absolute;
-    left: 1%;
-    top : 10%;
-    color: #f6f8f7;
-}
-
-.Bienvenida p {
     font-size: 2em;
-    position: absolute;
-    left: 1%;
-    top : 20%;
+    position: center;
     color: #f6f8f7;
 }
+
 </style>

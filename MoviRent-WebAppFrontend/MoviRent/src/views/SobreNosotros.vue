@@ -24,6 +24,7 @@
   position: absolute;
   left: 1%;
   top : 10%;
+  color: #f6f8f7;
 }
 
 .SobreNosotros p {
@@ -31,6 +32,7 @@
   position: absolute;
   left: 1%;
   top : 20%;
+  color: #f6f8f7;
 }
 
 </style>

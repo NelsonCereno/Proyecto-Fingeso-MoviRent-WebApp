@@ -22,7 +22,7 @@ import { RouterLink, RouterView } from 'vue-router';
     </div>
 
     <div class="logos">
-      <img alt="Vue logo" class="logo" src="@/assets/estafaPiramidal.jpg" width="250" height="125" />
+      <img alt="Vue logo" class="logo" src="@/assets/Logo.jpg" width="250" height="125" />
     </div>
   </header>
 
@@ -70,7 +70,7 @@ header {
   position: absolute;
   justify-content: center;
   align-items: center;
-  background-color: #07875c;
+  background-color: #345039;
   bottom: 0%;
   left: 0%;
   
@@ -81,6 +81,7 @@ nav {
   font-size: 12px;
   text-align: center;
   margin-top: 2rem;
+  
 }
 
 nav a.router-link-exact-active {
@@ -94,7 +95,8 @@ nav a.router-link-exact-active:hover {
 nav a {
   display: inline-block;
   padding: 0 1rem;
-  border-left: 1px solid var(--color-border);
+  border-left: 1px solid var(--color-text);
+  
 }
 
 nav a:first-of-type {

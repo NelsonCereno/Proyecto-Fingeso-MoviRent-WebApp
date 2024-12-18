@@ -9,5 +9,6 @@ import java.util.Optional;
 @Repository
 public interface RepositorioUsuario extends JpaRepository<EntidadUsuario, Long> {
     boolean existsByCorreo(String correo);
+    Optional<EntidadUsuario> findByCorreo(String correo);
     //Gracias a JPA las consultas de hacen automaticas
 }

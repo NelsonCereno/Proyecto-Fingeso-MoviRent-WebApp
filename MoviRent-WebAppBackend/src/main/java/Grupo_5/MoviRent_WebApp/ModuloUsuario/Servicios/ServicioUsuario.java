@@ -32,6 +32,10 @@ public class ServicioUsuario {
         return repositorioUsuario.existsByCorreo(correo);
     }
 
+    public EntidadUsuario getUsuarioByCorreo(String correo) {
+        return repositorioUsuario.findByCorreo(correo).orElse(null);
+    }
+
     //read
     public EntidadUsuario getUsuarioById(Long id){
         return
@@ -54,6 +58,14 @@ public class ServicioUsuario {
     public void deleteUsuario(Long id){
 
         repositorioUsuario.deleteById(id);
+    }
+
+    public boolean validarLogin(String correo, String contrasena) {
+        EntidadUsuario usuario = getUsuarioByCorreo(correo);
+        if (usuario != null && usuario.getContrasena().equals(contrasena)) {
+            return true; // Login exitoso
+        }
+        return false; // Login fallido
     }
 
 

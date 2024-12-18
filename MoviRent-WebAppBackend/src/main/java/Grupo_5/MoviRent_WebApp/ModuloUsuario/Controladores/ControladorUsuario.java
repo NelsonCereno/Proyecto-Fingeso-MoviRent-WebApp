@@ -52,6 +52,17 @@ public class ControladorUsuario {
         return ResponseEntity.ok("Usuario creado con éxito: " + usuario.getId());
     }
 
+    @PostMapping("/iniciarSesion")
+    public ResponseEntity<String> loginUsuario(@RequestParam String correo, @RequestParam String contrasena) {
+        boolean loginValido = servicioUsuario.validarLogin(correo, contrasena);
+        if (loginValido) {
+            return ResponseEntity.ok("Login exitoso.");
+        } else {
+            return ResponseEntity.badRequest().body("Correo o contraseña incorrectos.");
+        }
+    }
+
+
 
 
     @GetMapping("/todos")

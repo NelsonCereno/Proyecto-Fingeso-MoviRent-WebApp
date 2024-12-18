@@ -7,6 +7,7 @@ import CrearArriendo from '@/components/CrearArriendo.vue';
 import VerReportes from '@/components/VerReporte.vue';
 import CrearVehiculo from '@/components/CrearVehiculo.vue';
 import EditarVehiculo from '@/components/EditarVehiculo.vue';
+import IniciarSesion from '../components/IniciarSesion.vue';
 
 
 const router = createRouter({
@@ -35,6 +36,11 @@ const router = createRouter({
       path: '/crear-usuario', // Nueva ruta
       name: 'crearUsuario',
       component: CrearUsuario, // Vincula el componente CrearUsuario
+    },
+    {
+      path: '/iniciarSesion',
+      name: 'Iniciar Sesion',
+      component: IniciarSesion,
     },
     { path: '/crear-vehiculo', 
        name: 'crearVehiculo', 

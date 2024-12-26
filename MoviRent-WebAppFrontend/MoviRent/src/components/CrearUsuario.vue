@@ -94,6 +94,8 @@ export default {
           alert(response.data);
         } else {
           alert("Usuario creado con éxito.");
+          // Redirigir a la vista "Ver Vehículos"
+          this.$router.push('/iniciarSesion');
           this.limpiarFormulario();
         }
       } catch (error) {

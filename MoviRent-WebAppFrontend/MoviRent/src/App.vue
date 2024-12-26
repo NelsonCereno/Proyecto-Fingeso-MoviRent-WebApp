@@ -12,7 +12,7 @@ import { RouterLink, RouterView } from 'vue-router';
         <RouterLink to="/">Home</RouterLink>
         <RouterLink to="/SobreNosotros">Sobre Nosotros</RouterLink>
         <RouterLink to="/crear-usuario">Crear Usuario</RouterLink>
-        <RouterLink to="/iniciarSesion">Iniciar sesion</RouterLink>
+        <RouterLink to="/iniciarSesion">Iniciar Sesion</RouterLink>
         <RouterLink to="/crear-reporte">Crear Reporte</RouterLink>
         <RouterLink to="/ver-reportes">Ver Reportes</RouterLink>
         <RouterLink to="/arriendos">Crear Arriendo</RouterLink>

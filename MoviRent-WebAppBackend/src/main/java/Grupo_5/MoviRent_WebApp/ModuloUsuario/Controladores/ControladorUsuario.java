@@ -62,9 +62,6 @@ public class ControladorUsuario {
         }
     }
 
-
-
-
     @GetMapping("/todos")
     public ResponseEntity<List<EntidadUsuario>> getAllUsuarios() {
         List<EntidadUsuario> usuarios = servicioUsuario.getAllUsuarios();

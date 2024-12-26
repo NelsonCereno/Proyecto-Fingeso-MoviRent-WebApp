@@ -37,11 +37,6 @@ const router = createRouter({
       name: 'crearUsuario',
       component: CrearUsuario, // Vincula el componente CrearUsuario
     },
-    {
-      path: '/iniciarSesion',
-      name: 'Iniciar Sesion',
-      component: IniciarSesion,
-    },
     { path: '/crear-vehiculo', 
        name: 'crearVehiculo', 
        component: CrearVehiculo, 
@@ -60,6 +55,11 @@ const router = createRouter({
       path: '/editar-vehiculo/:idVehiculo',
       name: 'editarVehiculo',
       component: EditarVehiculo,
+    },
+    {
+      path: '/iniciarSesion/',
+      name: 'iniciar sesion',
+      component: IniciarSesion,
     }
     
     

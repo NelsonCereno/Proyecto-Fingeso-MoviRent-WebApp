@@ -159,9 +159,6 @@ export default {
 </script>
 
 <style scoped>
-.form-container{
-
-}
 
 
 form {

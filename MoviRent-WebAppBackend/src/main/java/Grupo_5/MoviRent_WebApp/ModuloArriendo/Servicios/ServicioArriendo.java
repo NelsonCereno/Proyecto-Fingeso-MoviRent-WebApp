@@ -3,6 +3,8 @@ package Grupo_5.MoviRent_WebApp.ModuloArriendo.Servicios;
 
 import Grupo_5.MoviRent_WebApp.ModuloArriendo.Entidades.EntidadArriendo;
 import Grupo_5.MoviRent_WebApp.ModuloArriendo.Repositorios.RepositorioArriendo;
+import Grupo_5.MoviRent_WebApp.ModuloVehiculo.Entidades.EntidadVehiculo;
+import Grupo_5.MoviRent_WebApp.ModuloVehiculo.Servicios.ServicioVehiculo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,7 +21,16 @@ public class ServicioArriendo {
 
         this.repositorioArriendo = repositorioArriendo;
     }
+    @Autowired
+    private ServicioVehiculo servicioVehiculo;
 
+    public void marcarVehiculoComoNoDisponible(Long idVehiculo) {
+        EntidadVehiculo vehiculo = servicioVehiculo.buscarVehiculoPorId(idVehiculo);
+        if (vehiculo != null) {
+            vehiculo.setDisponibilidad(false);
+            servicioVehiculo.agregarVehiculo(vehiculo);
+        }
+    }
     // CRUD
 
     //create

@@ -25,6 +25,15 @@ public class EntidadArriendo {
     private Long idSucursalPartida;
     private Long idVehiculo;
     private int montoPagar;
+    private String licencia; //Agregado para la entrega 4
+
+    public String getLicencia() {
+        return licencia;
+    } //Agregado para la entrega 4
+
+    public void setLicencia(String licencia) {
+        this.licencia = licencia;
+    } //Agregado para la entrega 4
 
     public Long getId() {
         return id;

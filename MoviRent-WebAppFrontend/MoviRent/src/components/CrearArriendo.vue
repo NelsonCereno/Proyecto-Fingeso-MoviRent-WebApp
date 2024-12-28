@@ -1,6 +1,5 @@
 <template>
   <div class="form-container">
-
     <form @submit.prevent="crearArriendo">
       <h2>Crear Arriendo</h2>
       <div>
@@ -36,6 +35,16 @@
         <input type="text" id="marca" v-model="nuevoArriendo.marca" readonly />
       </div>
       <div>
+        <label for="licencia">Licencia (URL):</label>
+        <div class="licencia-container">
+          <input type="text" id="licencia" v-model="nuevoArriendo.licencia" placeholder="URL de la licencia" required />
+          <button type="button" @click="cargarLicencia">Cargar Licencia</button>
+        </div>
+        <div v-if="nuevoArriendo.licencia">
+          <img :src="nuevoArriendo.licencia" alt="Previsualización de la licencia" class="licencia-preview" />
+        </div>
+      </div>
+      <div>
         <label for="montoPagar">Monto a Pagar:</label>
         <input type="number" id="montoPagar" v-model="nuevoArriendo.montoPagar" readonly />
       </div>
@@ -64,10 +73,18 @@ export default {
       marca: route.query.marca || "",
       montoPagar: "",
       disponibilidad: route.query.disponibilidad || false,
+      licencia: "", // URL de la licencia
     });
     const costoDiario = ref(parseFloat(route.query.precio) || 0);
 
-    // Lógica para calcular el monto del arriendo
+    const cargarLicencia = () => {
+      if (!nuevoArriendo.licencia) {
+        alert("Por favor ingresa una URL válida.");
+      } else {
+        alert("Licencia cargada correctamente.");
+      }
+    };
+
     const calcularMonto = () => {
       if (!nuevoArriendo.fechaInicio || !nuevoArriendo.fechaTermino) {
         return;
@@ -94,47 +111,29 @@ export default {
     };
 
     const crearArriendo = async () => {
-
-      //alert(nuevoArriendo.disponibilidad);
-
-      // Verificar que el ID del vehículo esté presente
       if (!nuevoArriendo.idVehiculo) {
         alert("Por favor, ingresa un ID de vehículo válido.");
         return;
       }
-      
-      if((nuevoArriendo.disponibilidad).toString() == "false"){
+
+      if (nuevoArriendo.disponibilidad.toString() === "false") {
         alert("El vehículo no está disponible para arrendar.");
         return;
+      }
 
-      }else{
-      
       try {
-        // Buscar el vehículo en el backend con el ID
-        const response = await axios.get(`http://localhost:8080/vehiculo/${nuevoArriendo.idVehiculo}`);
-        console.log("Datos del vehículo cargados:", response.data);
-
-        // Si el vehículo existe, cargar el costo diario
-        costoDiario.value = parseFloat(response.data.precio) || 0;
-        nuevoArriendo.montoPagar = costoDiario.value; // Inicializar el monto con el costo diario
-
-        // Realizar la creación del arriendo
         const arriendoResponse = await axios.post("http://localhost:8080/arriendo/crear", nuevoArriendo);
         alert("Arriendo creado con éxito: " + arriendoResponse.data);
         nuevoArriendo.disponibilidad = false;
-        //alert(nuevoArriendo.disponibilidad);
         limpiarFormulario();
       } catch (error) {
         console.error("Error al crear el arriendo:", error);
-        
+
         if (error.response && error.response.status === 404) {
-          // Verificamos si el error es por un ID de vehículo no encontrado (404)
           alert("Error al crear el arriendo. ID del vehículo inválido, por favor, intentalo nuevamente.");
         } else {
-          // Si es otro tipo de error, mostramos un mensaje genérico
           alert("Error al crear el arriendo, por favor, intentalo nuevamente.");
         }
-      }
       }
     };
 
@@ -145,12 +144,14 @@ export default {
       nuevoArriendo.idSucursalPartida = "";
       nuevoArriendo.idVehiculo = "";
       nuevoArriendo.montoPagar = "";
+      nuevoArriendo.licencia = "";
       costoDiario.value = 0;
     };
 
     return {
       nuevoArriendo,
       costoDiario,
+      cargarLicencia,
       calcularMonto,
       crearArriendo,
     };
@@ -159,36 +160,35 @@ export default {
 </script>
 
 <style scoped>
-
-
-form {
+.form-container {
   max-width: 800px;
   margin: 0 auto;
   padding: 20px;
   background: #f6f8f7;
-  border: 1px solid #f6f8f7;
+  border: 1px solid #ccc;
   border-radius: 10px;
   color: #000000;
   text-align: left;
   overflow-y: auto;
   flex-wrap: wrap;
-  
-  /*ajustar para el vice*/
   max-height: 600px;
 }
 
 form div {
   margin-bottom: 15px;
 }
+
 label {
   display: block;
   font-weight: bold;
 }
+
 input {
   width: 100%;
   padding: 8px;
   box-sizing: border-box;
 }
+
 button {
   display: block;
   width: 100%;
@@ -199,7 +199,21 @@ button {
   border-radius: 5px;
   cursor: pointer;
 }
+
 button:hover {
   background: #0056b3;
+}
+
+.licencia-container {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.licencia-preview {
+  margin-top: 10px;
+  max-width: 100%;
+  max-height: 200px;
+  border: 1px solid #ccc;
 }
 </style>

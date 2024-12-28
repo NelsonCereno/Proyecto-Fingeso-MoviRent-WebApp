@@ -3,6 +3,7 @@ package Grupo_5.MoviRent_WebApp.ModuloArriendo.Controladores;
 import Grupo_5.MoviRent_WebApp.ModuloArriendo.Entidades.EntidadArriendo;
 import Grupo_5.MoviRent_WebApp.ModuloArriendo.Servicios.ServicioArriendo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,10 +31,18 @@ public class ControladorArriendo {
 
     //Create
     @PostMapping("/crear")
-    public String crearArriendo(@RequestBody EntidadArriendo arriendo) {
-        servicioArriendo.crearArriendo(arriendo);
-        logger.info("Arriendo creado"); //+ arriendo.getCorreo()
-        return "Arriendo creado"; //+ arriendo.getId()
+    public ResponseEntity<String> crearArriendo(@RequestBody EntidadArriendo arriendo) {
+        try {
+            if (arriendo.getLicencia() == null || arriendo.getLicencia().isEmpty()) {
+                return ResponseEntity.badRequest().body("La licencia es obligatoria.");
+            }
+
+            servicioArriendo.crearArriendo(arriendo);
+            servicioArriendo.marcarVehiculoComoNoDisponible(arriendo.getIdVehiculo());
+            return ResponseEntity.ok("Arriendo creado exitosamente.");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al crear el arriendo.");
+        }
     }
 
     // Método para validar la fecha

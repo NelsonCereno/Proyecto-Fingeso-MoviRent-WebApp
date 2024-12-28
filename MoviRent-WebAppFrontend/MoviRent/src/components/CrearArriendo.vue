@@ -35,10 +35,9 @@
         <input type="text" id="marca" v-model="nuevoArriendo.marca" readonly />
       </div>
       <div>
-        <label for="licencia">Licencia (URL):</label>
+        <label for="licencia">Licencia de Conducir:</label>
         <div class="licencia-container">
-          <input type="text" id="licencia" v-model="nuevoArriendo.licencia" placeholder="URL de la licencia" required />
-          <button type="button" @click="cargarLicencia">Cargar Licencia</button>
+          <input type="file" id="licencia" @change="subirArchivoLicencia" />
         </div>
         <div v-if="nuevoArriendo.licencia">
           <img :src="nuevoArriendo.licencia" alt="Previsualización de la licencia" class="licencia-preview" />
@@ -73,15 +72,18 @@ export default {
       marca: route.query.marca || "",
       montoPagar: "",
       disponibilidad: route.query.disponibilidad || false,
-      licencia: "", // URL de la licencia
+      licencia: "", // URL o ruta local de la licencia
     });
     const costoDiario = ref(parseFloat(route.query.precio) || 0);
 
-    const cargarLicencia = () => {
-      if (!nuevoArriendo.licencia) {
-        alert("Por favor ingresa una URL válida.");
-      } else {
-        alert("Licencia cargada correctamente.");
+    const subirArchivoLicencia = (event) => {
+      const archivo = event.target.files[0];
+      if (archivo) {
+        const lector = new FileReader();
+        lector.onload = (e) => {
+          nuevoArriendo.licencia = e.target.result; // Guardar la base64 como licencia
+        };
+        lector.readAsDataURL(archivo);
       }
     };
 
@@ -151,7 +153,7 @@ export default {
     return {
       nuevoArriendo,
       costoDiario,
-      cargarLicencia,
+      subirArchivoLicencia,
       calcularMonto,
       crearArriendo,
     };

@@ -25,6 +25,7 @@ public class EntidadArriendo {
     private Long idSucursalPartida;
     private Long idVehiculo;
     private int montoPagar;
+    @Column(length = 10485760)
     private String licencia; //Agregado para la entrega 4
 
     public String getLicencia() {

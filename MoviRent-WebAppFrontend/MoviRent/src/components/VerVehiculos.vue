@@ -86,6 +86,9 @@ export default {
       try {
         const respuesta = await axios.get("http://localhost:8080/vehiculo/todos");
         this.vehiculos = Array.isArray(respuesta.data) ? respuesta.data : [];
+        
+        // Ordenar únicamente por ID en orden ascendente
+        this.vehiculos.sort((a, b) => a.idVehiculo - b.idVehiculo);
       } catch (error) {
         this.error = "Error al cargar vehículos.";
         console.error("Error en obtenerTodosLosVehiculos:", error);

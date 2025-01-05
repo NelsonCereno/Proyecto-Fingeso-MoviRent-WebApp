@@ -76,7 +76,7 @@ const router = createRouter({
       component: () => import('../components/TodosArriendosView.vue'),
     },
     {
-      path: '/mis-arriendos',
+      path: '/misArriendos',
       name: 'misArriendos',
       component: () => import('../components/MisArriendosView.vue'),
     },    

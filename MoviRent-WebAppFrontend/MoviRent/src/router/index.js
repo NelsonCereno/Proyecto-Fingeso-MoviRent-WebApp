@@ -9,6 +9,8 @@ import CrearVehiculo from "@/components/CrearVehiculo.vue";
 import EditarVehiculo from "@/components/EditarVehiculo.vue";
 import IniciarSesion from "../components/IniciarSesion.vue";
 import SobreNosotros from "../views/SobreNosotros.vue";
+import MisArriendosView from '../components/MisArriendosView.vue';
+import TodosArriendosView from "../components/TodosArriendosView.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -52,8 +54,8 @@ const router = createRouter({
       component: VerVehiculos,
     },
     {
-      path: "/arriendos/",
-      name: "arriendos",
+      path: "/CrearArriendo/",
+      name: "CrearArriendo",
       component: CrearArriendo,
       meta: { roles: ["ADMINISTRADOR", "CLIENTE"] },
     },
@@ -68,6 +70,16 @@ const router = createRouter({
       name: 'iniciarSesion',
       component: IniciarSesion,
     },
+    {
+      path: '/arriendos',
+      name: 'arriendos',
+      component: () => import('../components/TodosArriendosView.vue'),
+    },
+    {
+      path: '/mis-arriendos',
+      name: 'misArriendos',
+      component: () => import('../components/MisArriendosView.vue'),
+    },    
   ],
 });
 

@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.logging.Logger;
 
 @RestController
@@ -68,4 +69,15 @@ public class ControladorArriendo {
             }
         }
     }
+    @GetMapping("/todos")
+    public ResponseEntity<List<EntidadArriendo>> getTodosArriendos() {
+        List<EntidadArriendo> arriendos = servicioArriendo.obtenerArriendos();
+        return ResponseEntity.ok(arriendos);
+    }
+
+    @GetMapping("/mis-arriendos/{idUsuario}")
+    public List<EntidadArriendo> getArriendosPorUsuario(@PathVariable Long idUsuario) {
+        return servicioArriendo.getArriendosPorUsuario(idUsuario);
+    }
+
 }

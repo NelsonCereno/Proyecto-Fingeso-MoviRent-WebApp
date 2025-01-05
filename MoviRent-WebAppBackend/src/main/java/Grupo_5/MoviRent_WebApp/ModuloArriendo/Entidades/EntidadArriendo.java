@@ -28,6 +28,17 @@ public class EntidadArriendo {
     @Column(length = 10485760)
     private String licencia; //Agregado para la entrega 4
 
+    @Column // Si siempre debe existir
+    private Long usuarioId;
+
+    public Long getUsuarioId() {
+        return usuarioId;
+    }
+
+    public void setUsuarioId(Long usuarioId) {
+        this.usuarioId = usuarioId;
+    }
+
     public String getLicencia() {
         return licencia;
     } //Agregado para la entrega 4

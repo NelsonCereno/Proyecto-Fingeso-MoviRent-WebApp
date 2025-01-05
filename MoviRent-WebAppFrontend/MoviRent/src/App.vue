@@ -24,18 +24,23 @@ const cerrarSesion = () => {
   <header>
     <div class="wrapper">
       <nav>
+
+        <RouterLink to="/">Home</RouterLink>
+        <RouterLink v-if="!usuario" to="/iniciarSesion">Iniciar Sesión</RouterLink>
+        <RouterLink v-if="usuario?.role === 'ADMINISTRADOR'" to="/crear-reporte">Crear Reporte</RouterLink>
+        <RouterLink v-if="usuario?.role === 'ADMINISTRADOR'" to="/ver-reportes">Ver Reportes</RouterLink>
+        <RouterLink v-if="usuario?.role === 'ADMINISTRADOR'" to="/crear-vehiculo">Crear Vehículo</RouterLink>
+        <RouterLink v-if="usuario?.role === 'ADMINISTRADOR'" to="/arriendos">Ver Todos Los Arriendos</RouterLink>
+        <RouterLink to="/vehiculos">Ver Vehículos</RouterLink>
+        <RouterLink to="/misArriendos">Ver Mis Arriendos</RouterLink>
+        <RouterLink to="/sobreNosotros">Sobre Nosotros</RouterLink>
+
         <div class="nav-links">
-          <RouterLink to="/">Home</RouterLink>
-          <RouterLink v-if="!usuario" to="/iniciarSesion">Iniciar Sesión</RouterLink>
-          <RouterLink v-if="usuario?.role === 'ADMINISTRADOR'" to="/crear-reporte">Crear Reporte</RouterLink>
-          <RouterLink v-if="usuario?.role === 'ADMINISTRADOR'" to="/ver-reportes">Ver Reportes</RouterLink>
-          <RouterLink v-if="usuario?.role === 'ADMINISTRADOR'" to="/crear-vehiculo">Crear Vehículo</RouterLink>
-          <RouterLink to="/vehiculos">Ver Vehículos</RouterLink>
-          <RouterLink to="/sobreNosotros">Sobre Nosotros</RouterLink>
         </div>
         <div class="logout-button">
           <button v-if="usuario" @click="cerrarSesion">Cerrar Sesión</button>
         </div>
+
       </nav>
     </div>
     <div class="logos">

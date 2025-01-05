@@ -47,6 +47,10 @@
         <label for="montoPagar">Monto a Pagar:</label>
         <input type="number" id="montoPagar" v-model="nuevoArriendo.montoPagar" readonly />
       </div>
+      <div>
+        <label for="usuarioId">ID del Usuario:</label>
+        <input type="number" id="usuarioId" v-model="nuevoArriendo.usuarioId" required />
+      </div>
       <button type="submit">Crear Arriendo</button>
     </form>
   </div>
@@ -61,6 +65,7 @@ export default {
   name: "CrearArriendo",
   setup() {
     const route = useRoute();
+    const usuario = JSON.parse(localStorage.getItem("usuario")) || { id: 0 }; // Obtener el ID del usuario desde localStorage
     const nuevoArriendo = reactive({
       fechaInicio: "",
       fechaTermino: "",
@@ -73,6 +78,7 @@ export default {
       montoPagar: "",
       disponibilidad: route.query.disponibilidad || false,
       licencia: "", // URL o ruta local de la licencia
+      usuarioId: usuario?.id || "" // Incluir el ID del usuario actual
     });
     const costoDiario = ref(parseFloat(route.query.precio) || 0);
 
@@ -113,6 +119,9 @@ export default {
     };
 
     const crearArriendo = async () => {
+      // Asegurarse de que el campo usuarioId esté correctamente asignado antes de enviar la solicitud
+      nuevoArriendo.usuarioId = usuario.id;
+
       if (!nuevoArriendo.idVehiculo) {
         alert("Por favor, ingresa un ID de vehículo válido.");
         return;
@@ -147,6 +156,7 @@ export default {
       nuevoArriendo.idVehiculo = "";
       nuevoArriendo.montoPagar = "";
       nuevoArriendo.licencia = "";
+      nuevoArriendo.usuarioId = usuario.id; // Asegurarse de mantener el usuarioId
       costoDiario.value = 0;
     };
 

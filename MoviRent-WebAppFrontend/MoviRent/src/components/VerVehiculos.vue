@@ -99,8 +99,10 @@ export default {
       }
     },
     irACrearArriendo(vehiculo) {
+      const usuario = JSON.parse(localStorage.getItem("usuario")); 
+      const usuarioId = usuario ? usuario.id : 0;
       this.$router.push({
-        name: "arriendos",
+        name: "CrearArriendo",
         query: {
           idVehiculo: vehiculo.idVehiculo,
           patente: vehiculo.patente,
@@ -108,6 +110,7 @@ export default {
           marca: vehiculo.marca,
           precio: vehiculo.precio,
           disponibilidad: vehiculo.disponibilidad,
+          usuarioId: usuario?.id // Añadimos el ID del usuario aquí },
         },
       });
     },

@@ -44,16 +44,34 @@ public class ServicioArriendo {
                 repositorioArriendo.findById(id).orElse(null);
     }
 
-    public List<EntidadArriendo> getAllArriendos(){
-        return
-                repositorioArriendo.findAll();
+    // Obtener todos los arriendos
+    public List<EntidadArriendo> obtenerArriendos() {
+        List<EntidadArriendo> arriendos = repositorioArriendo.findAll();
+
+        // Asegura valores predeterminados para evitar nulos
+        for (EntidadArriendo arriendo : arriendos) {
+            if (arriendo.getFechaInicio() == null) arriendo.setFechaInicio("Fecha de inicio no especificada");
+            if (arriendo.getFechaTermino() == null) arriendo.setFechaTermino("Fecha de término no especificada");
+            if (arriendo.getIdSucursalLlegada() == null) arriendo.setIdSucursalLlegada(0L); // ID predeterminado
+            if (arriendo.getIdSucursalPartida() == null) arriendo.setIdSucursalPartida(0L); // ID predeterminado
+            if (arriendo.getIdVehiculo() == null) arriendo.setIdVehiculo(0L); // ID predeterminado
+            if (arriendo.getMontoPagar() <= 0) arriendo.setMontoPagar(0); // Monto predeterminado
+            if (arriendo.getLicencia() == null) arriendo.setLicencia("No registrada");
+            if (arriendo.getUsuarioId() == null) arriendo.setUsuarioId(0L); // Usuario predeterminado
+        }
+        return arriendos;
     }
+
 
     //Update
 
     public EntidadArriendo updateArriendo(EntidadArriendo arriendo){
         return repositorioArriendo.save(arriendo);
 
+    }
+
+    public List<EntidadArriendo> getArriendosPorUsuario(Long idUsuario) {
+        return repositorioArriendo.findByUsuarioId(idUsuario);
     }
 
     //Delete

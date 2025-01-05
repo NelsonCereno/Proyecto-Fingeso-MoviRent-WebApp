@@ -41,11 +41,6 @@ public class ControladorUsuario {
                 logger.warning("Fecha de nacimiento inválida: " + usuario.getFechaNacimiento());
                 return ResponseEntity.badRequest().body("Fecha de nacimiento no válida. El formato correcto es DD/MM/YYYY.");
             }
-            String celularRegex = "^\\+569\\d{8}";
-            if (!usuario.getCelular().matches(celularRegex)) {
-                logger.warning("Número de celular inválido: " + usuario.getCelular());
-                return ResponseEntity.badRequest().body("Número de celular no válido. El formato correcto es +569XXXXXXXX.");
-            }
 
             // Validación del rol
             if (usuario.getRole() == null) {

@@ -31,11 +31,12 @@
           type="text"
           id="celular"
           v-model="nuevoUsuario.celular"
-          placeholder="+569XXXXXXXX"
+          placeholder="+XXXXXXXXXXXXX"
           required
-          @input="formatearCelular"
+         @input="formatearCelular"
         />
-      </div>
+    </div>
+
       <div class="form-group">
         <label for="contrasena">Contraseña:</label>
         <input type="password" id="contrasena" v-model="nuevoUsuario.contrasena" required />
@@ -43,7 +44,6 @@
       <div class="form-group">
         <label for="rol">Rol:</label>
         <select id="rol" v-model="nuevoUsuario.role" required>
-          <option disabled value="">Seleccione un rol</option>
           <option value="CLIENTE">Cliente</option>
           <option value="ADMINISTRADOR">Administrador</option>
         </select>
@@ -66,7 +66,7 @@ export default {
         correo: "",
         celular: "",
         contrasena: "",
-        role: "", 
+        role: "CLIENTE", 
       },
     };
   },
@@ -83,12 +83,24 @@ export default {
       this.nuevoUsuario.fechaNacimiento = fecha;
     },
     formatearCelular(event) {
-      let celular = event.target.value.replace(/\D/g, ""); // Elimina caracteres no numéricos
-      if (celular.length > 8) {
-        celular = celular.substring(0, 8); // Limita a 8 dígitos
-      }
-      this.nuevoUsuario.celular = `+569${celular}`; // Agrega el prefijo
-    },
+  let celular = event.target.value;
+
+  // Asegurarse de que comience con "+" y eliminar caracteres no numéricos
+  celular = celular.replace(/[^+\d]/g,"");
+
+  // Si no comienza con "+", agregarlo
+  if (!celular.startsWith("+")) {
+    celular = `+${celular}`;
+  }
+
+  // Limitar la longitud máxima a 15 caracteres
+  if (celular.length > 15) {
+    celular = celular.slice(0, 15);
+  }
+
+  // Actualizar el modelo con el número formateado
+  this.nuevoUsuario.celular = celular;
+},
     async crearUsuario() {
       try {
         // Validar el rol
@@ -104,12 +116,6 @@ export default {
           return;
         }
 
-        // Validar el celular
-        const celularRegex = /^\+569\d{8}$/;
-        if (!celularRegex.test(this.nuevoUsuario.celular)) {
-          alert("El número de celular debe tener el formato +569XXXXXXXX.");
-          return;
-        }
 
         // Crear usuario en el backend
         const response = await axios.post("http://localhost:8080/usuario/crear", this.nuevoUsuario);

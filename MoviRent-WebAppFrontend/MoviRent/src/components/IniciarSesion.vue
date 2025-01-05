@@ -1,82 +1,63 @@
 <template>
     <div class="form-container">
-        <h2>Iniciar Sesión</h2>
-        <form @submit.prevent="iniciarSesion">
-            <div class="form-group">
-                <label for="correo">Correo:</label>
-                <input type="email" id="correo" v-model="usuarioLogin.correo" required />
-            </div>
-            <div class="form-group">
-                <label for="contrasena">Contraseña:</label>
-                <input type="password" id="contrasena" v-model="usuarioLogin.contrasena" required />
-            </div>
-            <button type="submit">Iniciar Sesión</button>
-        </form>
+      <h2>Iniciar Sesión</h2>
+      <form @submit.prevent="iniciarSesion">
+        <div class="form-group">
+          <label for="correo">Correo:</label>
+          <input type="email" id="correo" v-model="usuarioLogin.correo" required />
+        </div>
+        <div class="form-group">
+          <label for="contrasena">Contraseña:</label>
+          <input type="password" id="contrasena" v-model="usuarioLogin.contrasena" required />
+        </div>
+        <button type="submit">Iniciar Sesión</button>
+      </form>
+  
+      <!-- Botón para redirigir al registro -->
+      <button @click="redirigirRegistro" class="boton-registrar">Registrarse</button>
     </div>
-</template>
-
-<script>
-import axios from "axios";
-
-export default {
+  </template>
+  
+  <script>
+  import axios from "axios";
+  
+  export default {
     data() {
-        return {
-            usuarioLogin: {
-                correo: "",
-                contrasena: "",
-            },
-        };
+      return {
+        usuarioLogin: {
+          correo: "",
+          contrasena: "",
+        },
+      };
     },
     methods: {
         async iniciarSesion() {
-            try {
-                console.log("Datos enviados:", this.usuarioLogin); // Ver los datos enviados
+  try {
+    const response = await axios.post("http://localhost:8080/usuario/iniciarSesion", null, {
+      params: {
+        correo: this.usuarioLogin.correo,
+        contrasena: this.usuarioLogin.contrasena,
+      },
+    });
 
-                // Realizar la solicitud de inicio de sesión con los parámetros en la URL
-                const response = await axios.post("http://localhost:8080/usuario/iniciarSesion", null, {
-                    params: {
-                        correo: this.usuarioLogin.correo,
-                        contrasena: this.usuarioLogin.contrasena,
-                    },
-                });
-
-                // Verifica si la respuesta contiene datos (puede ser un token o algo similar)
-                if (response.data) {
-                    alert("Sesión iniciada correctamente.");
-
-                    // Redirigir a la vista "Ver Vehículos"
-                    this.$router.push('/vehiculos');
-                }
-            } catch (error) {
-                console.error("Error al iniciar sesión:", error);
-
-                // Verifica el tipo de error
-                if (error.response) {
-                    // El servidor respondió con un código de estado diferente a 2xx
-                    if (error.response.status === 404) {
-                        alert("El endpoint de inicio de sesión no existe. Revisa la URL del backend.");
-                    } else if (error.response.status === 400) {
-                        alert("Datos incorrectos. Revisa tu correo o contraseña.");
-                    } else {
-                        alert(`Error al iniciar sesión: ${error.response.statusText}`);
-                    }
-                } else if (error.request) {
-                    // La solicitud fue realizada pero no se recibió respuesta
-                    alert("No se recibió respuesta del servidor. Verifica la conexión.");
-                } else {
-                    // Algo ocurrió al configurar la solicitud
-                    alert("Error en la configuración de la solicitud: " + error.message);
-                }
-            }
-        }
-
-
+    if (response.data) {
+      alert("Sesión iniciada correctamente.");
+      localStorage.setItem("usuario", JSON.stringify({ role: response.data, correo: this.usuarioLogin.correo }));
+      location.reload(); // Recarga para actualizar el estado global
+    }
+  } catch (error) {
+    alert("Error al iniciar sesión. Verifica tus credenciales.");
+  }
+},
+      redirigirRegistro() {
+        this.$router.push("/crearUsuario"); // Redirigir a la ruta de creación de usuario
+      },
     },
-};
-</script>
-
-<style scoped>
-.form-container {
+  };
+  </script>
+  
+  <style scoped>
+  .form-container {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -86,35 +67,31 @@ export default {
     background-color: #f9f9f9;
     border: 1px solid #ccc;
     border-radius: 5px;
-}
-
-h2 {
+  }
+  
+  h2 {
     margin-bottom: 20px;
-}
-
-form {
-    width: 100%;
-}
-
-.form-group {
+  }
+  
+  .form-group {
     display: flex;
     flex-direction: column;
     margin-bottom: 15px;
-}
-
-label {
+  }
+  
+  label {
     font-weight: bold;
     margin-bottom: 5px;
-}
-
-input {
+  }
+  
+  input {
     padding: 8px;
     font-size: 16px;
     border: 1px solid #ccc;
     border-radius: 5px;
-}
-
-button {
+  }
+  
+  button {
     padding: 10px;
     font-size: 16px;
     color: white;
@@ -123,9 +100,20 @@ button {
     border-radius: 5px;
     cursor: pointer;
     width: 100%;
-}
-
-button:hover {
+    margin-top: 10px;
+  }
+  
+  button:hover {
     background-color: #0056b3;
-}
-</style>
+  }
+  
+  .boton-registrar {
+    background-color: #28a745;
+    margin-top: 10px;
+  }
+  
+  .boton-registrar:hover {
+    background-color: #218838;
+  }
+  </style>
+  

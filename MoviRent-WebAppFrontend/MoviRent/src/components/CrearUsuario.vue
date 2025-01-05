@@ -12,8 +12,14 @@
       </div>
       <div>
         <label for="fechaNacimiento">Fecha de Nacimiento:</label>
-        <input type="text" id="fechaNacimiento" v-model="nuevoUsuario.fechaNacimiento" required
-          @input="formatFechaNacimiento" placeholder="DD/MM/YYYY" />
+        <input
+          type="text"
+          id="fechaNacimiento"
+          v-model="nuevoUsuario.fechaNacimiento"
+          required
+          @input="formatFechaNacimiento"
+          placeholder="DD/MM/YYYY"
+        />
       </div>
       <div class="form-group">
         <label for="correo">Correo:</label>
@@ -21,20 +27,34 @@
       </div>
       <div>
         <label for="celular">Celular:</label>
-        <input type="text" id="celular" v-model="nuevoUsuario.celular" placeholder="+569XXXXXXXX" required />
+        <input
+          type="text"
+          id="celular"
+          v-model="nuevoUsuario.celular"
+          placeholder="+569XXXXXXXX"
+          required
+          @input="formatearCelular"
+        />
       </div>
       <div class="form-group">
         <label for="contrasena">Contraseña:</label>
         <input type="password" id="contrasena" v-model="nuevoUsuario.contrasena" required />
+      </div>
+      <div class="form-group">
+        <label for="rol">Rol:</label>
+        <select id="rol" v-model="nuevoUsuario.role" required>
+          <option disabled value="">Seleccione un rol</option>
+          <option value="CLIENTE">Cliente</option>
+          <option value="ADMINISTRADOR">Administrador</option>
+        </select>
       </div>
       <button type="submit">Crear Usuario</button>
     </form>
   </div>
 </template>
 
-
 <script>
-import axios from 'axios';
+import axios from "axios";
 
 export default {
   data() {
@@ -46,12 +66,13 @@ export default {
         correo: "",
         celular: "",
         contrasena: "",
+        role: "", 
       },
     };
   },
   methods: {
     formatFechaNacimiento(event) {
-      let fecha = event.target.value.replace(/\D/g, ""); // Elimina cualquier carácter no numérico
+      let fecha = event.target.value.replace(/\D/g, ""); // Elimina caracteres no numéricos
       if (fecha.length <= 2) {
         fecha = fecha.replace(/(\d{2})(\d{0,1})/, "$1/$2");
       } else if (fecha.length <= 4) {
@@ -59,43 +80,44 @@ export default {
       } else {
         fecha = fecha.replace(/(\d{2})(\d{2})(\d{4})/, "$1/$2/$3");
       }
-      this.nuevoUsuario.fechaNacimiento = fecha; // Actualiza el modelo con el valor formateado
+      this.nuevoUsuario.fechaNacimiento = fecha;
     },
     formatearCelular(event) {
-      // Obtener los primeros 8 caracteres del número (descontando el +569 fijo)
-      let celular = event.target.value.replace(/\D/g, ""); // Elimina cualquier carácter no numérico
+      let celular = event.target.value.replace(/\D/g, ""); // Elimina caracteres no numéricos
       if (celular.length > 8) {
         celular = celular.substring(0, 8); // Limita a 8 dígitos
       }
-      this.nuevoUsuario.celular = `+569${celular}`; // Prepend +569 al celular
+      this.nuevoUsuario.celular = `+569${celular}`; // Agrega el prefijo
     },
     async crearUsuario() {
       try {
-        console.log("Datos enviados:", this.nuevoUsuario); // Log de los datos enviados
+        // Validar el rol
+        if (!this.nuevoUsuario.role) {
+          alert("Por favor, seleccione un rol.");
+          return;
+        }
 
-        // Validar la fecha de nacimiento (formato DD/MM/YYYY)
+        // Validar la fecha de nacimiento
         const fechaNacimientoRegex = /^(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[0-2])\/\d{4}$/;
         if (!fechaNacimientoRegex.test(this.nuevoUsuario.fechaNacimiento)) {
           alert("La fecha de nacimiento debe tener el formato DD/MM/YYYY.");
           return;
         }
 
-        // Validar el celular (formato +569XXXXXXXX)
+        // Validar el celular
         const celularRegex = /^\+569\d{8}$/;
         if (!celularRegex.test(this.nuevoUsuario.celular)) {
           alert("El número de celular debe tener el formato +569XXXXXXXX.");
           return;
         }
-        // Realizar la solicitud para crear el usuario
-        const response = await axios.post("http://localhost:8080/usuario/crear", this.nuevoUsuario);
 
-        // Si la respuesta contiene el mensaje de correo duplicado
+        // Crear usuario en el backend
+        const response = await axios.post("http://localhost:8080/usuario/crear", this.nuevoUsuario);
         if (response.data.includes("El correo ya está registrado")) {
           alert(response.data);
         } else {
           alert("Usuario creado con éxito.");
-          // Redirigir a la vista "Ver Vehículos"
-          this.$router.push('/iniciarSesion');
+          this.$router.push("/iniciarSesion");
           this.limpiarFormulario();
         }
       } catch (error) {
@@ -111,12 +133,12 @@ export default {
         correo: "",
         celular: "",
         contrasena: "",
+        role: "",
       };
     },
   },
 };
 </script>
-
 
 <style scoped>
 .form-container {
@@ -150,7 +172,8 @@ label {
   margin-bottom: 5px;
 }
 
-input {
+input,
+select {
   padding: 8px;
   font-size: 16px;
   border: 1px solid #ccc;

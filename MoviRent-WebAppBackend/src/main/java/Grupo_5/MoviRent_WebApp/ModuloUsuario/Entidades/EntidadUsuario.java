@@ -45,6 +45,9 @@ public class EntidadUsuario {
         return nombre;
     }
 
+    @Enumerated(EnumType.STRING) // Enum para roles válidos
+    private Role role;
+
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
@@ -89,5 +92,19 @@ public class EntidadUsuario {
 
     public void setContrasena(String contrasena) {
         this.contrasena = contrasena;
+    }
+
+
+
+    public enum Role {
+        ADMINISTRADOR, // Rol para los usuarios administradores
+        CLIENTE        // Rol para los usuarios clientes
+    }
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
     }
 }

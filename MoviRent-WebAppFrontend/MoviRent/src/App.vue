@@ -1,27 +1,37 @@
 <script setup>
 import { RouterLink, RouterView } from 'vue-router';
+import { ref, onMounted } from 'vue';
+
+const usuario = ref(null);
+
+onMounted(() => {
+  const userData = localStorage.getItem('usuario');
+  if (userData) {
+    usuario.value = JSON.parse(userData);
+  }
+});
+
+const cerrarSesion = () => {
+  localStorage.removeItem('usuario');
+  usuario.value = null;
+  location.reload(); // Recargar la página para limpiar el estado
+};
 </script>
 
 <template>
   <header>
     <div class="wrapper">
-      
-
-      <!-- Navegación Única -->
       <nav>
         <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/SobreNosotros">Sobre Nosotros</RouterLink>
-        <RouterLink to="/crear-usuario">Crear Usuario</RouterLink>
-        <RouterLink to="/iniciarSesion">Iniciar Sesion</RouterLink>
-        <RouterLink to="/crear-reporte">Crear Reporte</RouterLink>
-        <RouterLink to="/ver-reportes">Ver Reportes</RouterLink>
-        <RouterLink to="/arriendos">Crear Arriendo</RouterLink>
-        <RouterLink to="/crear-vehiculo">Crear Vehículo</RouterLink>
-        <RouterLink to="/vehiculos">Ver Vehículos</RouterLink> 
-
+        <RouterLink v-if="!usuario" to="/iniciarSesion">Iniciar Sesión</RouterLink>
+        <RouterLink v-if="usuario?.role === 'ADMINISTRADOR'" to="/crear-reporte">Crear Reporte</RouterLink>
+        <RouterLink v-if="usuario?.role === 'ADMINISTRADOR'" to="/ver-reportes">Ver Reportes</RouterLink>
+        <RouterLink v-if="usuario?.role === 'ADMINISTRADOR'" to="/crear-vehiculo">Crear Vehículo</RouterLink>
+        <RouterLink to="/vehiculos">Ver Vehículos</RouterLink>
+        <RouterLink to="/sobreNosotros">Sobre Nosotros</RouterLink>
+        <button v-if="usuario" @click="cerrarSesion">Cerrar Sesión</button>
       </nav>
     </div>
-
     <div class="logos">
       <img alt="Vue logo" class="logo" src="@/assets/movirent.png" width="250" height="124.4" />
     </div>
@@ -74,7 +84,6 @@ header {
   background-color: #345039;
   bottom: 0%;
   left: 0%;
-  
 }
 
 nav {
@@ -82,7 +91,6 @@ nav {
   font-size: 12px;
   text-align: center;
   margin-top: 2rem;
-  
 }
 
 nav a.router-link-exact-active {
@@ -97,36 +105,22 @@ nav a {
   display: inline-block;
   padding: 0 1rem;
   border-left: 1px solid var(--color-text);
-  
 }
 
 nav a:first-of-type {
   border: 0;
 }
 
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-  }
+button {
+  padding: 5px 10px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
 
-  .logo {
-    margin: 0 2rem 0 0;
-  }
-
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
-
-  nav {
-    text-align: left;
-    margin-left: -1rem;
-    font-size: 1rem;
-    padding: 1rem 0;
-    margin-top: 1rem;
-  }
+button:hover {
+  background-color: #0056b3;
 }
 </style>

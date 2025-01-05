@@ -27,7 +27,7 @@ public class ServicioUsuario {
         return repositorioUsuario.save(usuario);
     }
 
-    // Método para verificar si un correo ya existe
+    // Metodo para verificar si un correo ya existe
     public boolean existeCorreo(String correo) {
         return repositorioUsuario.existsByCorreo(correo);
     }
@@ -68,5 +68,9 @@ public class ServicioUsuario {
         return false; // Login fallido
     }
 
+    public String obtenerRolUsuario(String correo) {
+        EntidadUsuario usuario = getUsuarioByCorreo(correo);
+        return usuario != null ? usuario.getRole().name() : null;
+    }
 
 }

@@ -31,28 +31,40 @@
       };
     },
     methods: {
-    async iniciarSesion() {
-         try {
-                const response = await axios.post("http://localhost:8080/usuario/iniciarSesion", null, {
-                params: {
+      async iniciarSesion() {
+    try {
+        const response = await axios.post("http://localhost:8080/usuario/iniciarSesion", null, {
+            params: {
                 correo: this.usuarioLogin.correo,
                 contrasena: this.usuarioLogin.contrasena,
-             },
-            });
+            },
+        });
 
-            if (response.data) {
-                alert("Sesión iniciada correctamente.");
-                localStorage.setItem("usuario", JSON.stringify({ role: response.data, correo: this.usuarioLogin.correo }));
-                location.reload(); // Refresca para limpiar el estado
-                window.location.href = "/"; // Redirige al Home
+        console.log("Respuesta del backend:", response.data); // Verificar qué devuelve el backend
+
+        if (response.data) {
+            const usuario = {
+                id: response.data.id, // Asegúrate de que el backend devuelve este campo
+                role: response.data.role,
+                correo: this.usuarioLogin.correo,
+            };
+
+            if (!usuario.id) {
+                alert("Error al procesar el inicio de sesión. Falta la ID del usuario.");
+                return;
+            }
+
+            alert("Sesión iniciada correctamente.");
+            localStorage.setItem("usuario", JSON.stringify(usuario));
+            location.reload();
+            window.location.href = "/";
+        }
+    } catch (error) {
+        console.error("Error al iniciar sesión:", error);
+        alert("Error al iniciar sesión. Verifica tus credenciales.");
     }
-  } catch (error) {
-    alert("Error al iniciar sesión. Verifica tus credenciales.");
-  }
-    },
-    redirigirRegistro() {
-        this.$router.push("/crearUsuario"); // Redirigir a la ruta de creación de usuario
-      },
+}
+
 
 }
 };

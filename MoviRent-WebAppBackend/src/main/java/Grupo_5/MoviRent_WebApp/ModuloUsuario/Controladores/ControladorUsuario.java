@@ -7,7 +7,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.ResponseEntity;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -15,7 +17,7 @@ import java.util.regex.Pattern;
 @RestController
 @RequestMapping("/usuario")
 
-//xdddxdxdxdx
+
 public class ControladorUsuario {
 
     private final ServicioUsuario servicioUsuario;
@@ -62,15 +64,19 @@ public class ControladorUsuario {
 
     @PostMapping("/iniciarSesion")
     public ResponseEntity<?> loginUsuario(@RequestParam String correo, @RequestParam String contrasena) {
-        boolean loginValido = servicioUsuario.validarLogin(correo, contrasena);
-        if (loginValido) {
-            String rol = servicioUsuario.obtenerRolUsuario(correo);
-            System.out.println("Bienvenido: "+ rol);
-            return ResponseEntity.ok(rol); // Retorna el rol del usuario
+        EntidadUsuario usuario = servicioUsuario.getUsuarioByCorreo(correo);
+        if (usuario != null && usuario.getContrasena().equals(contrasena)) {
+            // Devolver un objeto con ID y rol
+            Map<String, Object> response = new HashMap<>();
+            response.put("id", usuario.getId());
+            response.put("role", usuario.getRole().toString());
+            return ResponseEntity.ok(response);
         } else {
             return ResponseEntity.badRequest().body("Correo o contraseña incorrectos.");
         }
     }
+
+
 
     @GetMapping("/todos")
     public ResponseEntity<List<EntidadUsuario>> getAllUsuarios() {

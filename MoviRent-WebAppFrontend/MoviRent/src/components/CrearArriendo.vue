@@ -78,7 +78,7 @@ export default {
       montoPagar: "",
       disponibilidad: route.query.disponibilidad || false,
       licencia: "", // URL o ruta local de la licencia
-      usuarioId: usuario?.id || "" // Incluir el ID del usuario actual
+      usuarioId: route.query.idUsuario || 0, // Incluir el ID del usuario actual
     });
     const costoDiario = ref(parseFloat(route.query.precio) || 0);
 

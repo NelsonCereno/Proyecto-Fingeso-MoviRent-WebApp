@@ -100,7 +100,7 @@ export default {
     },
     irACrearArriendo(vehiculo) {
       const usuario = JSON.parse(localStorage.getItem("usuario")); 
-      const usuarioId = usuario ? usuario.id : 0;
+      const usuarioId = usuario ? usuario?.id : 0;
       this.$router.push({
         name: "CrearArriendo",
         query: {
@@ -110,7 +110,7 @@ export default {
           marca: vehiculo.marca,
           precio: vehiculo.precio,
           disponibilidad: vehiculo.disponibilidad,
-          usuarioId: usuario?.id // Añadimos el ID del usuario aquí },
+          idUsuario: usuario?.id// Añadimos el ID del usuario aquí },
         },
       });
     },

@@ -50,6 +50,9 @@
     alert("Error al iniciar sesión. Verifica tus credenciales.");
   }
     },
+    redirigirRegistro() {
+        this.$router.push("/crearUsuario"); // Redirigir a la ruta de creación de usuario
+      },
 
 }
 };

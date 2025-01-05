@@ -12,10 +12,13 @@ onMounted(() => {
 });
 
 const cerrarSesion = () => {
-  localStorage.removeItem('usuario');
+  localStorage.removeItem("usuario");
   usuario.value = null;
-  location.reload(); // Recargar la página para limpiar el estado
+  alert("Sesión cerrada con éxito.");
+  location.reload(); // Refresca para limpiar el estado
+  window.location.href = "/"; // Redirige al Home
 };
+
 </script>
 
 <template>

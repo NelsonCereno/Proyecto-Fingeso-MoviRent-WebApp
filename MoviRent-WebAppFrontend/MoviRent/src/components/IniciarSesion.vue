@@ -31,29 +31,28 @@
       };
     },
     methods: {
-        async iniciarSesion() {
-  try {
-    const response = await axios.post("http://localhost:8080/usuario/iniciarSesion", null, {
-      params: {
-        correo: this.usuarioLogin.correo,
-        contrasena: this.usuarioLogin.contrasena,
-      },
-    });
+    async iniciarSesion() {
+         try {
+                const response = await axios.post("http://localhost:8080/usuario/iniciarSesion", null, {
+                params: {
+                correo: this.usuarioLogin.correo,
+                contrasena: this.usuarioLogin.contrasena,
+             },
+            });
 
-    if (response.data) {
-      alert("Sesión iniciada correctamente.");
-      localStorage.setItem("usuario", JSON.stringify({ role: response.data, correo: this.usuarioLogin.correo }));
-      location.reload(); // Recarga para actualizar el estado global
+            if (response.data) {
+                alert("Sesión iniciada correctamente.");
+                localStorage.setItem("usuario", JSON.stringify({ role: response.data, correo: this.usuarioLogin.correo }));
+                location.reload(); // Refresca para limpiar el estado
+                window.location.href = "/"; // Redirige al Home
     }
   } catch (error) {
     alert("Error al iniciar sesión. Verifica tus credenciales.");
   }
-},
-      redirigirRegistro() {
-        this.$router.push("/crearUsuario"); // Redirigir a la ruta de creación de usuario
-      },
     },
-  };
+
+}
+};
   </script>
   
   <style scoped>

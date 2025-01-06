@@ -8,7 +8,10 @@ import Grupo_5.MoviRent_WebApp.ModuloVehiculo.Servicios.ServicioVehiculo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ServicioArriendo {
@@ -61,6 +64,31 @@ public class ServicioArriendo {
         }
         return arriendos;
     }
+
+
+
+        public boolean extenderArriendo(Long id, String nuevaFechaTermino) {
+            Optional<EntidadArriendo> arriendoOptional = repositorioArriendo.findById(id);
+
+            if (arriendoOptional.isPresent()) {
+                EntidadArriendo arriendo = arriendoOptional.get();
+
+                LocalDate fechaInicio = LocalDate.parse(arriendo.getFechaInicio());
+                LocalDate nuevaFechaTerminoDate = LocalDate.parse(nuevaFechaTermino);
+
+                long diffDays = ChronoUnit.DAYS.between(fechaInicio, nuevaFechaTerminoDate);
+
+                if (diffDays > 30) {
+                    return false; // La extensión supera los 30 días
+                }
+
+                arriendo.setFechaTermino(nuevaFechaTermino);
+                repositorioArriendo.save(arriendo);
+                return true;
+            }
+
+            return false;
+        }
 
 
     //Update

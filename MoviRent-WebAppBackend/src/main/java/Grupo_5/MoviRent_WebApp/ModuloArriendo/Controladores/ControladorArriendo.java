@@ -11,6 +11,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Logger;
 
 @RestController
@@ -80,4 +81,15 @@ public class ControladorArriendo {
         return servicioArriendo.getArriendosPorUsuario(idUsuario);
     }
 
+    @PutMapping("/extender/{id}")
+    public ResponseEntity<?> extenderArriendo(@PathVariable Long id, @RequestBody Map<String, String> request) {
+        String nuevaFechaTermino = request.get("fechaTermino");
+        boolean extensionExitosa = servicioArriendo.extenderArriendo(id, nuevaFechaTermino);
+        if (extensionExitosa) {
+            return ResponseEntity.ok("Arriendo extendido con éxito.");
+        }
+        else {
+            return ResponseEntity.badRequest().body("No se pudo extender el arriendo.");
+        }
+    }
 }

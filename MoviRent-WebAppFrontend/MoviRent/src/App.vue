@@ -32,7 +32,7 @@ const cerrarSesion = () => {
         <RouterLink v-if="usuario?.role === 'ADMINISTRADOR'" to="/crear-vehiculo">Crear Vehículo</RouterLink>
         <RouterLink v-if="usuario?.role === 'ADMINISTRADOR'" to="/arriendos">Ver Todos Los Arriendos</RouterLink>
         <RouterLink to="/vehiculos">Ver Vehículos</RouterLink>
-        <RouterLink to="/misArriendos">Ver Mis Arriendos</RouterLink>
+        <RouterLink v-if="usuario?.role === 'ADMINISTRADOR' || usuario?.role === 'CLIENTE'"to="/misArriendos">Ver Mis Arriendos</RouterLink>
         <RouterLink to="/sobreNosotros">Sobre Nosotros</RouterLink>
 
         <div class="nav-links">

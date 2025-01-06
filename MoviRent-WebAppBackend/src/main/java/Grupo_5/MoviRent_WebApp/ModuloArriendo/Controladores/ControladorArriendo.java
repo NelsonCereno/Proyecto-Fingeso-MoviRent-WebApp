@@ -92,4 +92,15 @@ public class ControladorArriendo {
             return ResponseEntity.badRequest().body("No se pudo extender el arriendo.");
         }
     }
+
+    @PutMapping("/cancelar/{id}")
+    public ResponseEntity<?> cancelarArriendo(@PathVariable Long id) {
+        System.out.println("Se entro a cancelar arriendo");
+        boolean cancelacionExitosa = servicioArriendo.cancelarArriendo(id);
+        if (cancelacionExitosa) {
+            return ResponseEntity.ok("Arriendo cancelado con éxito.");
+        } else {
+            return ResponseEntity.badRequest().body("No se pudo cancelar el arriendo. Solo se pueden cancelar arriendos cuyo inicio no sea hoy.");
+        }
+    }
 }

@@ -1,3 +1,12 @@
+¡Entendido! Vamos a agregar la funcionalidad para cancelar un arriendo en el componente `MisArriendos.vue`, asegurándonos de que el vehículo vuelva a estar disponible y que solo se pueda cancelar si la fecha de inicio no es igual a la fecha actual.
+
+### Modificar `MisArriendos.vue`
+
+#### `MisArriendos.vue`
+
+Vamos a agregar un botón para cancelar el arriendo y la lógica necesaria para manejar esta acción.
+
+```vue
 <template>
   <div>
     <div class="form-container">
@@ -20,6 +29,7 @@
           </div>
           <p v-else>No registrada</p>
           <button @click="mostrarModalExtender(arriendo)">Extender Arriendo</button>
+          <button @click="cancelarArriendo(arriendo)" :disabled="!puedeCancelar(arriendo)">Cancelar Arriendo</button>
         </div>
       </div>
     </div>
@@ -34,7 +44,7 @@
       <div class="modal-content">
         <h3>Extender Arriendo</h3>
         <label for="nuevaFechaTermino">Nueva Fecha de Término:</label>
-        <input type="date" v-model="nuevaFechaTermino" required />
+        <input type="date" v-model="nuevaFechaTermino" required :min="getMinFechaTermino()" />
         <button @click="extenderArriendo">Confirmar</button>
         <button @click="cerrarModal">Cancelar</button>
       </div>
@@ -44,7 +54,7 @@
 
 <script>
 import axios from 'axios';
-import { ref } from 'vue';
+import { ref, reactive } from 'vue';
 
 export default {
   data() {
@@ -83,6 +93,32 @@ export default {
       this.arriendoSeleccionado = null;
       this.nuevaFechaTermino = '';
     },
+    getMinFechaTermino() {
+      if (!this.arriendoSeleccionado) return "";
+      const fechaTerminoActual = new Date(this.arriendoSeleccionado.fechaTermino);
+      fechaTerminoActual.setDate(fechaTerminoActual.getDate() + 1); // Sumar 1 día a la fecha de término actual
+      return fechaTerminoActual.toISOString().split('T')[0]; // Convertir a formato YYYY-MM-DD
+    },
+    puedeCancelar(arriendo) {
+      const fechaInicio = new Date(arriendo.fechaInicio);
+      const fechaActual = new Date();
+      return fechaInicio > fechaActual;
+    },
+    async cancelarArriendo(arriendo) {
+      if (!this.puedeCancelar(arriendo)) {
+        alert("No puedes cancelar el arriendo si ya ha comenzado.");
+        return;
+      }
+
+      try {
+        await axios.put(`http://localhost:8080/arriendo/cancelar/${arriendo.id}`);
+        alert("Arriendo cancelado con éxito.");
+        this.obtenerMisArriendos();
+      } catch (error) {
+        console.error('Error al cancelar el arriendo:', error);
+        alert('Hubo un problema al cancelar el arriendo.');
+      }
+    },
     async extenderArriendo() {
       if (!this.nuevaFechaTermino) {
         alert('Por favor, selecciona una nueva fecha de término.');
@@ -93,8 +129,7 @@ export default {
       const nuevaFechaTerminoDate = new Date(this.nuevaFechaTermino);
       nuevaFechaTerminoDate.setDate(nuevaFechaTerminoDate.getDate() + 1); // Sumar 1 día a la nueva fecha de término
       const diffTime = nuevaFechaTerminoDate - fechaInicio;
-      const diffDays = Math.ceil((diffTime / (1000 * 60 * 60 * 24)));
-
+      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
       if (diffDays > 30) {
         alert("No puedes extender el arriendo más allá de 30 días.");
         return;
@@ -194,6 +229,11 @@ button:hover {
   background-color: #0056b3;
 }
 
+button[disabled] {
+  background-color: #cccccc;
+  cursor: not-allowed;
+}
+
 /* Estilos para el modal */
 .modal {
   display: flex;
@@ -221,7 +261,7 @@ button:hover {
 .modal-content input {
   width: 100%;
   padding: 8px;
-  margin: 10px 0;
+  margin:  10px 0;
   box-sizing: border-box;
 }
 

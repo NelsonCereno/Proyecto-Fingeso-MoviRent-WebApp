@@ -24,6 +24,7 @@ public class ServicioArriendo {
 
         this.repositorioArriendo = repositorioArriendo;
     }
+
     @Autowired
     private ServicioVehiculo servicioVehiculo;
 
@@ -37,12 +38,12 @@ public class ServicioArriendo {
     // CRUD
 
     //create
-    public EntidadArriendo crearArriendo(EntidadArriendo arriendo){
+    public EntidadArriendo crearArriendo(EntidadArriendo arriendo) {
         return repositorioArriendo.save(arriendo);
     }
 
     //read
-    public EntidadArriendo getArriendoById(Long id){
+    public EntidadArriendo getArriendoById(Long id) {
         return
                 repositorioArriendo.findById(id).orElse(null);
     }
@@ -66,34 +67,33 @@ public class ServicioArriendo {
     }
 
 
+    public boolean extenderArriendo(Long id, String nuevaFechaTermino) {
+        Optional<EntidadArriendo> arriendoOptional = repositorioArriendo.findById(id);
 
-        public boolean extenderArriendo(Long id, String nuevaFechaTermino) {
-            Optional<EntidadArriendo> arriendoOptional = repositorioArriendo.findById(id);
+        if (arriendoOptional.isPresent()) {
+            EntidadArriendo arriendo = arriendoOptional.get();
 
-            if (arriendoOptional.isPresent()) {
-                EntidadArriendo arriendo = arriendoOptional.get();
+            LocalDate fechaInicio = LocalDate.parse(arriendo.getFechaInicio());
+            LocalDate nuevaFechaTerminoDate = LocalDate.parse(nuevaFechaTermino);
 
-                LocalDate fechaInicio = LocalDate.parse(arriendo.getFechaInicio());
-                LocalDate nuevaFechaTerminoDate = LocalDate.parse(nuevaFechaTermino);
+            long diffDays = ChronoUnit.DAYS.between(fechaInicio, nuevaFechaTerminoDate);
 
-                long diffDays = ChronoUnit.DAYS.between(fechaInicio, nuevaFechaTerminoDate);
-
-                if (diffDays > 30) {
-                    return false; // La extensión supera los 30 días
-                }
-
-                arriendo.setFechaTermino(nuevaFechaTermino);
-                repositorioArriendo.save(arriendo);
-                return true;
+            if (diffDays > 30) {
+                return false; // La extensión supera los 30 días
             }
 
-            return false;
+            arriendo.setFechaTermino(nuevaFechaTermino);
+            repositorioArriendo.save(arriendo);
+            return true;
         }
+
+        return false;
+    }
 
 
     //Update
 
-    public EntidadArriendo updateArriendo(EntidadArriendo arriendo){
+    public EntidadArriendo updateArriendo(EntidadArriendo arriendo) {
         return repositorioArriendo.save(arriendo);
 
     }
@@ -103,8 +103,28 @@ public class ServicioArriendo {
     }
 
     //Delete
-    public void deleteArriendo(Long id){
+    public void deleteArriendo(Long id) {
 
         repositorioArriendo.deleteById(id);
     }
+
+    public boolean cancelarArriendo(Long id) {
+        Optional<EntidadArriendo> arriendoOptional = repositorioArriendo.findById(id);
+
+        if (arriendoOptional.isPresent()) {
+            EntidadArriendo arriendo = arriendoOptional.get();
+            LocalDate fechaInicio = LocalDate.parse(arriendo.getFechaInicio());
+            LocalDate hoy = LocalDate.now();
+
+            if (!fechaInicio.equals(hoy)) {
+                EntidadVehiculo Vehiculo = servicioVehiculo.buscarVehiculoPorId(arriendo.getIdVehiculo());
+                Vehiculo.setDisponibilidad(true); // Dejar el vehículo disponible
+                repositorioArriendo.delete(arriendo);
+                return true;
+            }
+        }
+
+        return false;
+    }
+
 }

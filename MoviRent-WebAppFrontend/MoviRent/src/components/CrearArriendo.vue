@@ -154,6 +154,10 @@ export default {
       nuevoArriendo.idSucursalLlegada = "";
       nuevoArriendo.idSucursalPartida = "";
       nuevoArriendo.idVehiculo = "";
+      nuevoArriendo.patente= "";
+      nuevoArriendo.modelo= "";
+      nuevoArriendo.marca = "";
+      nuevoArriendo.licencia = "";
       nuevoArriendo.montoPagar = "";
       nuevoArriendo.licencia = "";
       nuevoArriendo.usuarioId = usuario.id; // Asegurarse de mantener el usuarioId

@@ -12,14 +12,8 @@
       </div>
       <div>
         <label for="fechaNacimiento">Fecha de Nacimiento:</label>
-        <input
-          type="text"
-          id="fechaNacimiento"
-          v-model="nuevoUsuario.fechaNacimiento"
-          required
-          @input="formatFechaNacimiento"
-          placeholder="DD/MM/YYYY"
-        />
+        <input type="text" id="fechaNacimiento" v-model="nuevoUsuario.fechaNacimiento" required
+          @input="formatFechaNacimiento" placeholder="DD/MM/YYYY" />
       </div>
       <div class="form-group">
         <label for="correo">Correo:</label>
@@ -27,15 +21,9 @@
       </div>
       <div>
         <label for="celular">Celular:</label>
-        <input
-          type="text"
-          id="celular"
-          v-model="nuevoUsuario.celular"
-          placeholder="+XXXXXXXXXXXXX"
-          required
-         @input="formatearCelular"
-        />
-    </div>
+        <input type="text" id="celular" v-model="nuevoUsuario.celular" placeholder="+XXXXXXXXXXXXX" required
+          @input="formatearCelular" />
+      </div>
 
       <div class="form-group">
         <label for="contrasena">Contraseña:</label>
@@ -66,7 +54,7 @@ export default {
         correo: "",
         celular: "",
         contrasena: "",
-        role: "CLIENTE", 
+        role: "CLIENTE",
       },
     };
   },
@@ -83,24 +71,24 @@ export default {
       this.nuevoUsuario.fechaNacimiento = fecha;
     },
     formatearCelular(event) {
-  let celular = event.target.value;
+      let celular = event.target.value;
 
-  // Asegurarse de que comience con "+" y eliminar caracteres no numéricos
-  celular = celular.replace(/[^+\d]/g,"");
+      // Asegurarse de que comience con "+" y eliminar caracteres no numéricos
+      celular = celular.replace(/[^+\d]/g, "");
 
-  // Si no comienza con "+", agregarlo
-  if (!celular.startsWith("+")) {
-    celular = `+${celular}`;
-  }
+      // Si no comienza con "+", agregarlo
+      if (!celular.startsWith("+")) {
+        celular = `+${celular}`;
+      }
 
-  // Limitar la longitud máxima a 15 caracteres
-  if (celular.length > 15) {
-    celular = celular.slice(0, 15);
-  }
+      // Limitar la longitud máxima a 15 caracteres
+      if (celular.length > 15) {
+        celular = celular.slice(0, 15);
+      }
 
-  // Actualizar el modelo con el número formateado
-  this.nuevoUsuario.celular = celular;
-},
+      // Actualizar el modelo con el número formateado
+      this.nuevoUsuario.celular = celular;
+    },
     async crearUsuario() {
       try {
         // Validar el rol
@@ -113,6 +101,13 @@ export default {
         const fechaNacimientoRegex = /^(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[0-2])\/\d{4}$/;
         if (!fechaNacimientoRegex.test(this.nuevoUsuario.fechaNacimiento)) {
           alert("La fecha de nacimiento debe tener el formato DD/MM/YYYY.");
+          return;
+        }
+
+        // Validar el número de celular
+        const celularRegex = /^\+569\d{8}$/;
+        if (!celularRegex.test(this.nuevoUsuario.celular)) {
+          alert("El número de celular debe tener el formato +569XXXXXXXX");
           return;
         }
 

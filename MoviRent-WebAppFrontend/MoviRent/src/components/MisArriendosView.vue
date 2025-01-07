@@ -1,12 +1,3 @@
-¡Entendido! Vamos a agregar la funcionalidad para cancelar un arriendo en el componente `MisArriendos.vue`, asegurándonos de que el vehículo vuelva a estar disponible y que solo se pueda cancelar si la fecha de inicio no es igual a la fecha actual.
-
-### Modificar `MisArriendos.vue`
-
-#### `MisArriendos.vue`
-
-Vamos a agregar un botón para cancelar el arriendo y la lógica necesaria para manejar esta acción.
-
-```vue
 <template>
   <div>
     <div class="form-container">
